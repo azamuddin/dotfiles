@@ -790,3 +790,9 @@ autocmd BufWinEnter *.* silent loadview
 
 nnoremap <leader>bo :BufOnly<CR>
 nnoremap <leader>vi :Vifm<CR>
+nnoremap <C-o> o <Esc>
+ 
+ 
+
+
+
