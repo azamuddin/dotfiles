@@ -100,6 +100,7 @@ Plug 'yuttie/comfortable-motion.vim'
 Plug 'christoomey/vim-conflicted'
 Plug 'davidoc/taskpaper.vim'
 Plug 'vifm/vifm.vim'
+Plug 'skwp/greplace.vim'
 
 "if isdirectory('/usr/local/opt/fzf') 
   "Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' 
@@ -790,7 +791,7 @@ autocmd BufWinEnter *.* silent loadview
 
 nnoremap <leader>bo :BufOnly<CR>
 nnoremap <leader>vi :Vifm<CR>
-nnoremap <C-o> o <Esc>
+nnoremap <C-o> o<Esc>
  
  
 
