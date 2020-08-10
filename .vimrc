@@ -101,6 +101,8 @@ Plug 'christoomey/vim-conflicted'
 Plug 'davidoc/taskpaper.vim'
 Plug 'vifm/vifm.vim'
 Plug 'skwp/greplace.vim'
+Plug 'nightsense/rusticated'
+Plug 'kyledoherty/espresso-colors-vim'
 
 "if isdirectory('/usr/local/opt/fzf') 
   "Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' 
@@ -792,8 +794,7 @@ autocmd BufWinEnter *.* silent loadview
 nnoremap <leader>bo :BufOnly<CR>
 nnoremap <leader>vi :Vifm<CR>
 nnoremap <C-o> o<Esc>
- 
- 
 
-
-
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
