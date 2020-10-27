@@ -103,6 +103,7 @@ Plug 'vifm/vifm.vim'
 Plug 'skwp/greplace.vim'
 Plug 'nightsense/rusticated'
 Plug 'kyledoherty/espresso-colors-vim'
+Plug 'StanAngeloff/php.vim'
 
 "if isdirectory('/usr/local/opt/fzf') 
   "Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' 
@@ -136,7 +137,13 @@ Plug 'honza/vim-snippets'
 
 "" Color
 "Plug 'tomasr/molokai'
-"*****************************************************************************
+Plug 'ts-26a/vim-darkspace'
+Plug 'artanikin/vim-synthwave84'
+Plug 'gkapfham/vim-vitamin-onec'
+
+
+
+""*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
 
@@ -273,7 +280,7 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-silent! colorscheme focuspoint 
+silent! colorscheme darkspace 
 autocmd BufEnter *.md colorscheme focuspoint
 set background=dark
 
