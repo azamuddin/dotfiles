@@ -140,7 +140,18 @@ Plug 'honza/vim-snippets'
 Plug 'ts-26a/vim-darkspace'
 Plug 'artanikin/vim-synthwave84'
 Plug 'gkapfham/vim-vitamin-onec'
-
+Plug 'ntk148v/vim-horizon'
+Plug 'maksimr/Lucius2'
+Plug 'vim-scripts/Ambient-Color-Scheme'
+Plug 'scottymoon/vim-chalkboard'
+Plug 'fatih/molokai'
+Plug 'fcevado/molokai_dark'
+Plug 'acoustichero/simple_dark'
+Plug 'jasoncarr0/sidewalk-colorscheme'
+Plug 'vim-scripts/darkspectrum'
+Plug 'dracula/vim'
+Plug 'gosukiwi/vim-atom-dark'
+Plug 'nanotech/jellybeans.vim'
 
 
 ""*****************************************************************************
@@ -280,8 +291,8 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-silent! colorscheme darkspace 
-autocmd BufEnter *.md colorscheme focuspoint
+silent! colorscheme jellybeans 
+autocmd BufEnter *.md colorscheme jellybeans
 set background=dark
 
 
@@ -805,3 +816,4 @@ nnoremap <C-o> o<Esc>
 set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set t_Co=256 
