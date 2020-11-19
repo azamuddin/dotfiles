@@ -247,6 +247,14 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'glepnir/galaxyline.nvim'
 
+Plug 'lewis6991/moonlight.vim'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'megantiu/true.vim'
+Plug 'jdsimcoe/panic.vim'
+Plug 'xdg/vim-darkluma'
+Plug 'fielding/vice'
+Plug 'wdhg/dragon-energy'
+
 " make sure vim-devicions always last
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 "Plug 'ryanoasis/vim-devicons' 
@@ -313,8 +321,8 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-silent! colorscheme defnoche 
-autocmd! BufEnter *.md colorscheme defnoche 
+silent! colorscheme dragon-energy 
+autocmd! BufEnter *.md colorscheme dragon-energy 
 set background=dark
 
 set mousemodel=popup 
@@ -494,7 +502,7 @@ nnoremap <silent> <S-t> :tabnew<CR>
 nnoremap <leader>. :lcd %:p:h<CR>
 
 "" Opens an edit command with the path of the currently edited file filled in
-noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/"<CR>
 
 "" Opens a tab edit command with the path of the currently edited file filled
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
@@ -939,6 +947,9 @@ let bufferline.clickable = v:false
 let bufferline.semantic_letters = v:true
 
 "**** end vim barbar tab 
+
+
+noremap vimrc :e ~/.vimrc<CR>
 
 echo "bismillah"
 
