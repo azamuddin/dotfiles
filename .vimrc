@@ -14,7 +14,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'tiagofumo/vim-nerdtree-syntax-highlight'
+"NeoBundle 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
@@ -74,14 +74,17 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
+
+Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}
+
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree' 
-Plug 'jistr/vim-nerdtree-tabs' 
+"Plug 'scrooloose/nerdtree' 
+"Plug 'jistr/vim-nerdtree-tabs' 
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive' 
-Plug 'vim-airline/vim-airline' 
-Plug 'vim-airline/vim-airline-themes' 
+"Plug 'vim-airline/vim-airline' 
+"Plug 'vim-airline/vim-airline-themes' 
 Plug 'airblade/vim-gitgutter' 
 Plug 'vim-scripts/grep.vim' 
 Plug 'vim-scripts/CSApprox' 
@@ -117,6 +120,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'skywind3000/quickmenu.vim'
 
 
 let g:make = 'gmake' 
@@ -136,7 +140,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 "" Color
-"Plug 'tomasr/molokai'
+Plug 'tomasr/molokai'
 Plug 'ts-26a/vim-darkspace'
 Plug 'artanikin/vim-synthwave84'
 Plug 'gkapfham/vim-vitamin-onec'
@@ -144,7 +148,7 @@ Plug 'ntk148v/vim-horizon'
 Plug 'maksimr/Lucius2'
 Plug 'vim-scripts/Ambient-Color-Scheme'
 Plug 'scottymoon/vim-chalkboard'
-Plug 'fatih/molokai'
+"Plug 'fatih/molokai'
 Plug 'fcevado/molokai_dark'
 Plug 'acoustichero/simple_dark'
 Plug 'jasoncarr0/sidewalk-colorscheme'
@@ -152,6 +156,7 @@ Plug 'vim-scripts/darkspectrum'
 Plug 'dracula/vim'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'nanotech/jellybeans.vim'
+Plug 'ParamagicDev/vim-medic_chalk'
 
 
 ""*****************************************************************************
@@ -174,28 +179,19 @@ Plug 'arnaud-lb/vim-php-namespace'
 "Plug 'peitalin/vim-jsx-typescript'
 
 
+" vim dash
+Plug 'rizzatti/dash.vim'
+
+
+Plug 'rhysd/git-messenger.vim'
+if !has('nvim')
+  Plug 'rhysd/vim-healthcheck'
+endif
+
 " Emmet 
 Plug 'mattn/emmet-vim'
-let g:user_emmet_settings = {
-      \'javascript': {
-      \     'extends': 'jsx',
-      \}
-\}
-
-"let g:user_emmet_expandabbr_key='<Tab>'
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
 " markdown preview
 Plug 'jamshedvesuna/vim-markdown-preview'
-let vim_markdown_preview_github=1
-let vim_markdown_preview_browser='Google Chrome'
-let vim_markdown_preview_toggle=1
-let vim_markdown_preview_temp_file=1
-
-" dart & flutter 
-let g:hot_reload_on_save=1 
-let g:flutter_hot_reload_on_save=1
-
 Plug 'dart-lang/dart-vim-plugin' 
 Plug 'thosakwe/vim-flutter'
 
@@ -204,14 +200,15 @@ Plug 'thosakwe/vim-flutter'
 Plug 'natebosch/vim-lsc' 
 Plug 'natebosch/vim-lsc-dart'
 
+Plug 'severin-lemaignan/vim-minimap'
 
 " using coc-vim Install nightly build, replace ./install.sh with install.cmd
 " on windows
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+"Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 " Or install latest release tag
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 " Or build from source code
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+"Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition) 
@@ -228,15 +225,40 @@ nmap <F2> <Plug>(coc-rename)
 if filereadable(expand("~/.vimrc.local.bundles")) 
   source  ~/.vimrc.local.bundles 
 endif
+Plug 'romgrk/barbar.nvim'
 
+Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'nvim-treesitter/nvim-treesitter'
+
+Plug 'jdsimcoe/hyper.vim'
+Plug 'habamax/vim-colors-defnoche'
+Plug 'plainfingers/black_is_the_color'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'nvim-lua/lsp-status.nvim'
+"Plug 'neovim/nvim-lsp'
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'glepnir/galaxyline.nvim'
 
 " make sure vim-devicions always last
-Plug 'ryanoasis/vim-devicons'
-
-set encoding=UTF-8
+Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+"Plug 'ryanoasis/vim-devicons' 
 
 
 call plug#end()
+
+"********** END OF PLUG ***********
+
+
+
+
 
 " Required:
 filetype plugin indent on
@@ -291,13 +313,11 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-silent! colorscheme jellybeans 
-autocmd BufEnter *.md colorscheme jellybeans
+silent! colorscheme defnoche 
+autocmd! BufEnter *.md colorscheme defnoche 
 set background=dark
 
-
 set mousemodel=popup 
-set t_Co=256 
 set guioptions=egmrti 
 set gfn=Monospace\ 10
 
@@ -348,16 +368,11 @@ set title
 set titleold="Terminal" 
 set titlestring=%F
 
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
 " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
 nnoremap n nzzzv 
 nnoremap N Nzzzv
-
-if exists("*fugitive#statusline") 
-  set statusline+=%{fugitive#statusline()}
-endif
 
 
 
@@ -377,21 +392,20 @@ cnoreabbrev Q q
 cnoreabbrev Qall qall
 
 "" NERDTree configuration
-let g:NERDTreeChDirMode=2 
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$','\.db$', '\.sqlite$', '__pycache__', '\.swp$', '\.swo$'] 
-let g:NERDTreeSortOrder=['^__\.py$','\/$', '*', '\.swp$', '\.bak$', '\~$'] 
-let g:NERDTreeShowBookmarks=1 
-let g:nerdtree_tabs_focus_on_files=1 
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>' 
-let g:NERDTreeWinSize = 35 
-let g:NERDTreeShowHidden = 1
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite 
-nnoremap \\ :NERDTreeToggle<CR>
-nnoremap ]] :NERDTreeFind<CR>
-" dont let buffer opened file in NerdTree Window
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
-" prevent quit vim after bd on file opened by NERDTree
-noremap <leader>w :bp<cr>:bd #<cr>
+"let g:NERDTreeChDirMode=2 
+"let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$','\.db$', '\.sqlite$', '__pycache__', '\.swp$', '\.swo$'] 
+"let g:NERDTreeSortOrder=['^__\.py$','\/$', '*', '\.swp$', '\.bak$', '\~$'] 
+"let g:NERDTreeShowBookmarks=1 
+"let g:nerdtree_tabs_focus_on_files=1 
+"let g:NERDTreeMapOpenInTabSilent = '<RightMouse>' 
+"let g:NERDTreeWinSize = 35 
+"let g:NERDTreeShowHidden = 1
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite 
+"nnoremap \\ :NERDTreeToggle<CR>
+"nnoremap ]] :NERDTreeFind<CR>
+"" dont let buffer opened file in NerdTree Window
+"autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
+"" prevent quit vim after bd on file opened by NERDTree
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR> 
@@ -504,7 +518,6 @@ if executable('rg')
 endif
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap <silent> <leader>b :Buffers<CR>
 
 
 " custom FZF call 
@@ -512,13 +525,15 @@ function! FZFTerminalPwd()
    exe "lcd " . getcwd(-1) . " | FZF"
 endfunction 
 
-nnoremap <leader>e :call FZFTerminalPwd()<CR> " call FZF on terminal pwd
+" call FZF on terminal pwd
+nnoremap <leader>e :call FZFTerminalPwd()<CR> 
 
 function! FZFHere()
    exe "lcd %:p:h | FZF"
 endfunction 
 
-nnoremap <leader>l :call FZFHere()<CR> " call FZF on the current file directory
+" call FZF on the current file directory
+nnoremap <leader>l :call FZFHere()<CR> 
 
 
 
@@ -557,8 +572,8 @@ if has('macunix')
 endif
 
 "" Buffer nav
-noremap <leader>k :bn<CR>
-noremap <leader>j :bp<CR>
+noremap <leader>k :BufferNext<CR>
+noremap <leader>j :BufferPrevious<CR>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
@@ -616,54 +631,49 @@ endif
 "*****************************************************************************
 
 " vim-airline
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+"if !exists('g:airline_symbols)
+  "let g:airline_symbols = {}
+"endif
 
-" vim-airline
-let g:airline_theme = 'deus'
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'jsformatter'
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
-let g:airline_section_y = ' '
-let g:airline_section_warning = ''
+"let g:airline_theme = 'deus'
+"let g:airline#extensions#branch#enabled = 1
+"let g:airline#extensions#ale#enabled = 0
+"let g:airline#extensions#tabline#enabled = 0
+"let g:airline#extensions#tabline#formatter = 'jsformatter'
+"let g:airline#extensions#tagbar#enabled = 0
+"let g:airline_skip_empty_sections = 0
 
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = ' '
-  let g:airline_left_sep          = ''"▶
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = ' · ' "◀
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
+"if !exists('g:airline_powerline_fonts')
+  "let g:airline#extensions#tabline#left_sep = ' '
+  "let g:airline#extensions#tabline#left_alt_sep = ' '
+  "let g:airline_left_sep          = ''"▶
+  "let g:airline_left_alt_sep      = '»'
+  "let g:airline_right_sep         = ' · ' "◀
+  "let g:airline_right_alt_sep     = '«'
+  "let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  "let g:airline#extensions#readonly#symbol   = '⊘'
+  "let g:airline#extensions#linecolumn#prefix = '¶'
+  "let g:airline#extensions#paste#symbol      = 'ρ'
+  "let g:airline_symbols.linenr    = '␊'
+  "let g:airline_symbols.branch    = '⎇'
+  "let g:airline_symbols.paste     = 'ρ'
+  "let g:airline_symbols.paste     = 'Þ'
+  "let g:airline_symbols.paste     = '∥'
+  "let g:airline_symbols.whitespace = 'Ξ'
+"else
+  "let g:airline#extensions#tabline#left_sep = ''
+  "let g:airline#extensions#tabline#left_alt_sep = ''
 
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
+ "" powerline symbols
+  "let g:airline_left_sep = ''
+  "let g:airline_left_alt_sep = ''
+  "let g:airline_right_sep = ''
+  "let g:airline_right_alt_sep = ''
+  "let g:airline_symbols.branch = ''
+  "let g:airline_symbols.readonly = ''
+  "let g:airline_symbols.linenr = ''
+"endif
 
-
-" start new cocvim from docs
 
 
 " if hidden is not set, TextEdit might fail.
@@ -774,8 +784,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
@@ -809,7 +817,6 @@ autocmd BufWinEnter *.* silent loadview
 :set fillchars+=vert:\ 
 
 
-nnoremap <leader>bo :BufOnly<CR>
 nnoremap <leader>vi :Vifm<CR>
 nnoremap <C-o> o<Esc>
 
@@ -817,3 +824,123 @@ set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set t_Co=256 
+set relativenumber
+
+
+"---------- QUICK MENU
+
+" choose a favorite key to show/hide quickmenu
+noremap <silent><leader>m :call quickmenu#toggle(0)<cr>
+
+" enable cursorline (L) and cmdline help (H)
+let g:quickmenu_options = "HL"
+
+" section 1, text starting with "#" represents a section (see the screen capture below)
+call g:quickmenu#append('# Develop', '')
+
+call g:quickmenu#append('item 1.1', 'echo "1.1 is selected"', 'select item 1.1')
+call g:quickmenu#append('item 1.2', 'echo "1.2 is selected"', 'select item 1.2')
+call g:quickmenu#append('item 1.3', 'echo "1.3 is selected"', 'select item 1.3')
+
+" section 2
+call g:quickmenu#append('# Misc', '')
+
+call g:quickmenu#append('item 2.1', 'echo "2.1 is selected"', 'select item 2.1')
+call g:quickmenu#append('item 2.2', 'echo "2.2 is selected"', 'select item 2.2')
+call g:quickmenu#append('item 2.3', 'echo "2.3 is selected"', 'select item 2.3')
+call g:quickmenu#append('item 2.4', 'echo "2.4 is selected"', 'select item 2.4')
+
+"---------- END QUICK MENU
+
+" related to nvim-treesitter must be outside Plug
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
+" end
+
+let vim_markdown_preview_github=1
+let vim_markdown_preview_browser='Google Chrome'
+let vim_markdown_preview_toggle=1
+let vim_markdown_preview_temp_file=1
+
+" dart & flutter 
+let g:hot_reload_on_save=1 
+let g:flutter_hot_reload_on_save=1
+
+" emmet
+let g:user_emmet_settings = {
+      \'javascript': {
+      \     'extends': 'jsx',
+      \}
+\}
+
+"let g:user_emmet_expandabbr_key='<Tab>'
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+" plug barbar
+nmap <silent> cbp :BufferPick<CR>
+
+"plug bufonly
+nmap <silent><leader>bo :BufOnly<CR>
+
+
+" plug LuaTree
+nnoremap \\ :LuaTreeToggle<CR>
+nnoremap ]] :LuaTreeFindFile<CR>
+set encoding=UTF-8
+
+noremap <silent>gm :GitMessenger<CR>
+noremap <silent>cdf :color defnoche<CR>
+noremap <silent>cbc :color black_is_the_color<CR>
+noremap <silent>chp :color hyper<CR>
+noremap <silent>gl :Glow<CR>
+
+noremap <silent>tele :Telescope git_files<CR>
+
+noremap <silent><leader>w :BufferClose<CR>
+
+lua <<EOF
+-- galaxyline theme
+require('spaceline')
+
+local nvim_lsp = require('lspconfig')
+
+-- Some arbitrary servers
+nvim_lsp.tsserver.setup{}
+
+EOF
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+"**** vim barbar tab 
+let bufferline = {}
+
+" Enable/disable animations
+let bufferline.animation = v:false
+
+" Enable/disable icons
+" if set to "numbers", will show buffer index in the tabline
+let bufferline.icons = v:true
+
+" Enable/disable close button
+let bufferline.closable = v:false
+
+" Enables/disable clickable tabs
+"  - left-click: go to buffer
+"  - middle-click: delete buffer
+let bufferline.clickable = v:false
+let bufferline.semantic_letters = v:true
+
+"**** end vim barbar tab 
+
+echo "bismillah"
+
+
+
