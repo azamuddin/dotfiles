@@ -225,7 +225,8 @@ nmap <F2> <Plug>(coc-rename)
 if filereadable(expand("~/.vimrc.local.bundles")) 
   source  ~/.vimrc.local.bundles 
 endif
-Plug 'romgrk/barbar.nvim'
+
+"Plug 'romgrk/barbar.nvim'
 
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
@@ -241,9 +242,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-Plug 'nvim-lua/lsp-status.nvim'
+"Plug 'nvim-lua/lsp-status.nvim'
 "Plug 'neovim/nvim-lsp'
-Plug 'neovim/nvim-lspconfig'
+"Plug 'neovim/nvim-lspconfig'
 
 Plug 'glepnir/galaxyline.nvim'
 
@@ -254,6 +255,13 @@ Plug 'jdsimcoe/panic.vim'
 Plug 'xdg/vim-darkluma'
 Plug 'fielding/vice'
 Plug 'wdhg/dragon-energy'
+"Plug 'glepnir/indent-guides.nvim'
+Plug 'akinsho/nvim-bufferline.lua'
+
+
+" Note: This used to be luvjob, but plenary is required now.
+Plug 'nvim-lua/plenary.nvim'
+Plug 'tjdevries/express_line.nvim'
 
 " make sure vim-devicions always last
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
@@ -322,7 +330,7 @@ set number
 
 let no_buffers_menu=1 
 silent! colorscheme dragon-energy 
-autocmd! BufEnter *.md colorscheme dragon-energy 
+autocmd! BufEnter *.md colorscheme dragon-energy
 set background=dark
 
 set mousemodel=popup 
@@ -579,12 +587,6 @@ if has('macunix')
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
 
-"" Buffer nav
-noremap <leader>k :BufferNext<CR>
-noremap <leader>j :BufferPrevious<CR>
-
-"" Close buffer
-noremap <leader>c :bd<CR>
 
 "" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
@@ -862,6 +864,9 @@ call g:quickmenu#append('item 2.4', 'echo "2.4 is selected"', 'select item 2.4')
 
 " related to nvim-treesitter must be outside Plug
 lua <<EOF
+
+-- require'spaceline';
+
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
@@ -891,11 +896,6 @@ let g:user_emmet_settings = {
 "let g:user_emmet_expandabbr_key='<Tab>'
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
-" plug barbar
-nmap <silent> cbp :BufferPick<CR>
-
-"plug bufonly
-nmap <silent><leader>bo :BufOnly<CR>
 
 
 " plug LuaTree
@@ -911,47 +911,105 @@ noremap <silent>gl :Glow<CR>
 
 noremap <silent>tele :Telescope git_files<CR>
 
-noremap <silent><leader>w :BufferClose<CR>
-
-lua <<EOF
--- galaxyline theme
-require('spaceline')
-
-local nvim_lsp = require('lspconfig')
-
--- Some arbitrary servers
-nvim_lsp.tsserver.setup{}
-
-EOF
+noremap <silent><leader>w :close<CR>
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 "**** vim barbar tab 
-let bufferline = {}
+"let bufferline = {}
 
-" Enable/disable animations
-let bufferline.animation = v:false
+"" Enable/disable animations
+"let bufferline.animation = v:false
 
-" Enable/disable icons
-" if set to "numbers", will show buffer index in the tabline
-let bufferline.icons = v:true
+"" Enable/disable icons
+"" if set to "numbers", will show buffer index in the tabline
+"let bufferline.icons = v:true
 
-" Enable/disable close button
-let bufferline.closable = v:false
+"" Enable/disable close button
+"let bufferline.closable = v:false
 
-" Enables/disable clickable tabs
-"  - left-click: go to buffer
-"  - middle-click: delete buffer
-let bufferline.clickable = v:false
-let bufferline.semantic_letters = v:true
+"" Enables/disable clickable tabs
+""  - left-click: go to buffer
+""  - middle-click: delete buffer
+"let bufferline.clickable = v:false
+"let bufferline.semantic_letters = v:true
 
 "**** end vim barbar tab 
 
 
-noremap vimrc :e ~/.vimrc<CR>
+noremap <Leader>vimrc :e ~/.vimrc<CR>
+nmap <silent>telebu :Telescope buffers<CR>
+
+lua <<EOF
+   require('spaceline');
+EOF
+
+"express line 
+
+
+
+lua <<EOF
+local extensions = require('el.extensions');
+local subscribe = require('el.subscribe');
+local sections = require('el.sections');
+local helper = require("el.helper")
+local builtin = require('el.builtin');
+
+local generator = function(win_id)
+    local el_segments = {}
+
+    table.insert(el_segments, extensions.mode) -- mode returns the current mode.
+
+    table.insert(el_segments, ' ');
+
+    table.insert(el_segments,
+    subscribe.buf_autocmd(
+      "el_file_icon",
+      "BufRead",
+      function(win_id, buffer)
+        return extensions.file_icon(win_id, buffer)
+      end
+    ))
+
+    local file_namer = function(_window, buffer)
+      return buffer.name
+    end
+
+    table.insert(el_segments, sections.left_subsection);
+    table.insert(el_segments, ' %F %m')
+    table.insert(el_segments, builtin.readonly)
+    table.insert(el_segments, sections.split)
+    table.insert(el_segments, ' %q %L lines %y · [%l:%c] · %P ');
+    table.insert(el_segments, helper.async_buf_setter(
+      win_id,
+      'el_git_stat',
+      extensions.git_changes,
+      5000
+    ))
+
+    return el_segments
+end
+
+-- And then when you're all done, just call
+--require('el').setup { generator = generator }
+
+EOF
+
+
+lua require'bufferline'.setup()
+
+" Buffer nav
+noremap <leader>k :BufferLineCycleNext<CR>
+noremap <leader>j :BufferLineCyclePrev<CR>
+
+"" Close buffer
+noremap <leader>c :bd<CR>
+
+nmap <silent> cbp :BufferLinePick<CR>
+
+"plug bufonly
+nmap <silent><leader>bo :BufOnly<CR>
+
 
 echo "bismillah"
-
-
-
