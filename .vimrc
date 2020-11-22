@@ -14,7 +14,10 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-"NeoBundle 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+if !has('nvim')
+  NeoBundle 'tiagofumo/vim-nerdtree-syntax-highlight'
+endif
 
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
@@ -78,13 +81,9 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}
 
 Plug 'scrooloose/nerdcommenter'
-"Plug 'scrooloose/nerdtree' 
-"Plug 'jistr/vim-nerdtree-tabs' 
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive' 
-"Plug 'vim-airline/vim-airline' 
-"Plug 'vim-airline/vim-airline-themes' 
 Plug 'airblade/vim-gitgutter' 
 Plug 'vim-scripts/grep.vim' 
 Plug 'vim-scripts/CSApprox' 
@@ -228,25 +227,35 @@ endif
 
 "Plug 'romgrk/barbar.nvim'
 
-Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
-Plug 'kyazdani42/nvim-tree.lua'
+if has('nvim')
+  Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  "Plug 'nvim-lua/lsp-status.nvim'
+  "Plug 'neovim/nvim-lsp'
+  "Plug 'neovim/nvim-lspconfig'
+  Plug 'glepnir/galaxyline.nvim'
+  Plug 'akinsho/nvim-bufferline.lua'
+  " Note: This used to be luvjob, but plenary is required now.
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'tjdevries/express_line.nvim'
+  "Plug 'glepnir/indent-guides.nvim'
+else 
+  Plug 'vim-scripts/BufOnly.vim'
+  Plug 'scrooloose/nerdtree' 
+  Plug 'jistr/vim-nerdtree-tabs' 
+  Plug 'vim-airline/vim-airline' 
+  Plug 'vim-airline/vim-airline-themes' 
+endif
 
-Plug 'nvim-treesitter/nvim-treesitter'
 
 Plug 'jdsimcoe/hyper.vim'
 Plug 'habamax/vim-colors-defnoche'
 Plug 'plainfingers/black_is_the_color'
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-"Plug 'nvim-lua/lsp-status.nvim'
-"Plug 'neovim/nvim-lsp'
-"Plug 'neovim/nvim-lspconfig'
-
-Plug 'glepnir/galaxyline.nvim'
 
 Plug 'lewis6991/moonlight.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
@@ -255,20 +264,16 @@ Plug 'jdsimcoe/panic.vim'
 Plug 'xdg/vim-darkluma'
 Plug 'fielding/vice'
 Plug 'wdhg/dragon-energy'
-"Plug 'glepnir/indent-guides.nvim'
-Plug 'akinsho/nvim-bufferline.lua'
-
-
-" Note: This used to be luvjob, but plenary is required now.
-Plug 'nvim-lua/plenary.nvim'
-Plug 'tjdevries/express_line.nvim'
-
 Plug 'mhinz/vim-startify'
 
-" make sure vim-devicions always last
-Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
-"Plug 'ryanoasis/vim-devicons' 
+if has('nvim')
+  Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+  Plug 'ryanoasis/vim-devicons' 
+else 
+  Plug 'ryanoasis/vim-devicons' 
+endif 
 
+" make sure vim-devicions always last
 
 call plug#end()
 
@@ -410,19 +415,17 @@ cnoreabbrev Q q
 cnoreabbrev Qall qall
 
 "" NERDTree configuration
-"let g:NERDTreeChDirMode=2 
-"let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$','\.db$', '\.sqlite$', '__pycache__', '\.swp$', '\.swo$'] 
-"let g:NERDTreeSortOrder=['^__\.py$','\/$', '*', '\.swp$', '\.bak$', '\~$'] 
-"let g:NERDTreeShowBookmarks=1 
-"let g:nerdtree_tabs_focus_on_files=1 
-"let g:NERDTreeMapOpenInTabSilent = '<RightMouse>' 
-"let g:NERDTreeWinSize = 35 
-"let g:NERDTreeShowHidden = 1
+let g:NERDTreeChDirMode=2 
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$','\.db$', '\.sqlite$', '__pycache__', '\.swp$', '\.swo$'] 
+let g:NERDTreeSortOrder=['^__\.py$','\/$', '*', '\.swp$', '\.bak$', '\~$'] 
+let g:NERDTreeShowBookmarks=1 
+let g:nerdtree_tabs_focus_on_files=1 
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>' 
+let g:NERDTreeWinSize = 35 
+let g:NERDTreeShowHidden = 1
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite 
-"nnoremap \\ :NERDTreeToggle<CR>
-"nnoremap ]] :NERDTreeFind<CR>
 "" dont let buffer opened file in NerdTree Window
-"autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 "" prevent quit vim after bd on file opened by NERDTree
 
 " grep.vim
@@ -643,49 +646,53 @@ endif
 "*****************************************************************************
 
 " vim-airline
-"if !exists('g:airline_symbols)
-  "let g:airline_symbols = {}
-"endif
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 
-"let g:airline_theme = 'deus'
-"let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#ale#enabled = 0
-"let g:airline#extensions#tabline#enabled = 0
-"let g:airline#extensions#tabline#formatter = 'jsformatter'
-"let g:airline#extensions#tagbar#enabled = 0
-"let g:airline_skip_empty_sections = 0
+if !has('nvim')
+  let g:airline_theme = 'deus'
+  let g:airline#extensions#branch#enabled = 1
+  let g:airline#extensions#ale#enabled = 0
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#formatter = 'jsformatter'
+  let g:airline#extensions#tabline#ignore_bufadd_pat =
+    \ 'gundo|undotree|vimfiler|tagbar|nerd_tree|startify|!'
+  let g:airline#extensions#tagbar#enabled = 1
+  let g:airline_skip_empty_sections = 1
 
-"if !exists('g:airline_powerline_fonts')
-  "let g:airline#extensions#tabline#left_sep = ' '
-  "let g:airline#extensions#tabline#left_alt_sep = ' '
-  "let g:airline_left_sep          = ''"▶
-  "let g:airline_left_alt_sep      = '»'
-  "let g:airline_right_sep         = ' · ' "◀
-  "let g:airline_right_alt_sep     = '«'
-  "let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  "let g:airline#extensions#readonly#symbol   = '⊘'
-  "let g:airline#extensions#linecolumn#prefix = '¶'
-  "let g:airline#extensions#paste#symbol      = 'ρ'
-  "let g:airline_symbols.linenr    = '␊'
-  "let g:airline_symbols.branch    = '⎇'
-  "let g:airline_symbols.paste     = 'ρ'
-  "let g:airline_symbols.paste     = 'Þ'
-  "let g:airline_symbols.paste     = '∥'
-  "let g:airline_symbols.whitespace = 'Ξ'
-"else
-  "let g:airline#extensions#tabline#left_sep = ''
-  "let g:airline#extensions#tabline#left_alt_sep = ''
+  if !exists('g:airline_powerline_fonts')
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = ' '
+    let g:airline_left_sep          = ''"▶
+    let g:airline_left_alt_sep      = '»'
+    let g:airline_right_sep         = ' · ' "◀
+    let g:airline_right_alt_sep     = '«'
+    let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+    let g:airline#extensions#readonly#symbol   = '⊘'
+    let g:airline#extensions#linecolumn#prefix = '¶'
+    let g:airline#extensions#paste#symbol      = 'ρ'
+    let g:airline_symbols.linenr    = '␊'
+    let g:airline_symbols.branch    = '⎇'
+    let g:airline_symbols.paste     = 'ρ'
+    let g:airline_symbols.paste     = 'Þ'
+    let g:airline_symbols.paste     = '∥'
+    let g:airline_symbols.whitespace = 'Ξ'
+  else
+    let g:airline#extensions#tabline#left_sep = ''
+    let g:airline#extensions#tabline#left_alt_sep = ''
 
- "" powerline symbols
-  "let g:airline_left_sep = ''
-  "let g:airline_left_alt_sep = ''
-  "let g:airline_right_sep = ''
-  "let g:airline_right_alt_sep = ''
-  "let g:airline_symbols.branch = ''
-  "let g:airline_symbols.readonly = ''
-  "let g:airline_symbols.linenr = ''
-"endif
+   " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = ''
+  endif
 
+endif
 
 
 " if hidden is not set, TextEdit might fail.
@@ -865,6 +872,7 @@ call g:quickmenu#append('item 2.4', 'echo "2.4 is selected"', 'select item 2.4')
 "---------- END QUICK MENU
 
 " related to nvim-treesitter must be outside Plug
+if has('nvim')
 lua <<EOF
 
 -- require'spaceline';
@@ -878,6 +886,7 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 " end
+endif
 
 let vim_markdown_preview_github=1
 let vim_markdown_preview_browser='Google Chrome'
@@ -898,117 +907,49 @@ let g:user_emmet_settings = {
 "let g:user_emmet_expandabbr_key='<Tab>'
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
-
+if has('nvim')
+  noremap <silent>\\ :LuaTreeToggle<CR>
+  noremap <silent>]] :LuaTreeFindFile<CR>
+  noremap <silent>gl :Glow<CR>
+  noremap <silent>gm :GitMessenger<CR>
+  noremap <silent>tele :Telescope git_files<CR>
+  nmap <silent>telebu :Telescope buffers<CR>
+  " bufferline 
+  noremap <leader>k :BufferLineCycleNext<CR>
+  noremap <leader>j :BufferLineCyclePrev<CR>
+  nmap <silent> cbp :BufferLinePick<CR>
+else 
+  nnoremap \\ :NERDTreeToggle<CR>
+  nnoremap ]] :NERDTreeFind<CR>
+  noremap <leader>k :bn<CR>
+  noremap <leader>j :bp<CR>
+endif
 
 set encoding=UTF-8
 
-noremap <silent>gm :GitMessenger<CR>
 noremap <silent>cdf :color defnoche<CR>
 noremap <silent>cbc :color black_is_the_color<CR>
 noremap <silent>chp :color hyper<CR>
-noremap <silent>gl :Glow<CR>
-
-noremap <silent>tele :Telescope git_files<CR>
 
 noremap <silent><leader>w :close<CR>
 
-" Add status line support, for integration with other plugin, checkout `:h coc-status
-"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-"**** vim barbar tab 
-"let bufferline = {}
-
-"" Enable/disable animations
-"let bufferline.animation = v:false
-
-"" Enable/disable icons
-"" if set to "numbers", will show buffer index in the tabline
-"let bufferline.icons = v:true
-
-"" Enable/disable close button
-"let bufferline.closable = v:false
-
-"" Enables/disable clickable tabs
-""  - left-click: go to buffer
-""  - middle-click: delete buffer
-"let bufferline.clickable = v:false
-"let bufferline.semantic_letters = v:true
-
-"**** end vim barbar tab 
-
-
 noremap <Leader>vimrc :e ~/.vimrc<CR>
-nmap <silent>telebu :Telescope buffers<CR>
+
+
+if has('nvim')
 
 lua <<EOF
    require('spaceline');
 EOF
 
-"express line 
+  lua require'bufferline'.setup()
 
 
-
-lua <<EOF
-local extensions = require('el.extensions');
-local subscribe = require('el.subscribe');
-local sections = require('el.sections');
-local helper = require("el.helper")
-local builtin = require('el.builtin');
-
-local generator = function(win_id)
-    local el_segments = {}
-
-    table.insert(el_segments, extensions.mode) -- mode returns the current mode.
-
-    table.insert(el_segments, ' ');
-
-    table.insert(el_segments,
-    subscribe.buf_autocmd(
-      "el_file_icon",
-      "BufRead",
-      function(win_id, buffer)
-        return extensions.file_icon(win_id, buffer)
-      end
-    ))
-
-    local file_namer = function(_window, buffer)
-      return buffer.name
-    end
-
-    table.insert(el_segments, sections.left_subsection);
-    table.insert(el_segments, ' %F %m')
-    table.insert(el_segments, builtin.readonly)
-    table.insert(el_segments, sections.split)
-    table.insert(el_segments, ' %q %L lines %y · [%l:%c] · %P ');
-    table.insert(el_segments, helper.async_buf_setter(
-      win_id,
-      'el_git_stat',
-      extensions.git_changes,
-      5000
-    ))
-
-    return el_segments
-end
-
--- And then when you're all done, just call
---require('el').setup { generator = generator }
-
-EOF
-
-
-lua require'bufferline'.setup()
-
-" Buffer nav
-noremap <leader>k :BufferLineCycleNext<CR>
-noremap <leader>j :BufferLineCyclePrev<CR>
+endif
 
 "" Close buffer
 noremap <leader>c :bd<CR>
 
-nmap <silent> cbp :BufferLinePick<CR>
-
 "plug bufonly
 nmap <silent><leader>bo :BufOnly<CR>
 
-
-echo "bismillah"
