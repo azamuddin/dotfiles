@@ -263,6 +263,8 @@ Plug 'akinsho/nvim-bufferline.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'tjdevries/express_line.nvim'
 
+Plug 'mhinz/vim-startify'
+
 " make sure vim-devicions always last
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 "Plug 'ryanoasis/vim-devicons' 
@@ -898,9 +900,6 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 
 
-" plug LuaTree
-nnoremap \\ :LuaTreeToggle<CR>
-nnoremap ]] :LuaTreeFindFile<CR>
 set encoding=UTF-8
 
 noremap <silent>gm :GitMessenger<CR>
