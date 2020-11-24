@@ -230,7 +230,7 @@ endif
 
 if has('nvim')
   Plug 'kyazdani42/nvim-tree.lua'
-  Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+  "Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
   Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
@@ -244,7 +244,7 @@ if has('nvim')
   "Plug 'tjdevries/express_line.nvim'
   "Plug 'glepnir/indent-guides.nvim'
 else 
-  Plug 'vim-scripts/BufOnly.vim'
+  "Plug 'vim-scripts/BufOnly.vim'
   Plug 'scrooloose/nerdtree' 
   Plug 'jistr/vim-nerdtree-tabs' 
 endif
@@ -952,7 +952,6 @@ noremap <silent>cdf :color defnoche<CR>
 noremap <silent>cbc :color black_is_the_color<CR>
 noremap <silent>chp :color hyper<CR>
 
-noremap <silent><leader>w :close<CR>
 
 noremap <Leader>vimrc :e ~/.vimrc<CR>
 
@@ -993,8 +992,9 @@ endif
 "" Close buffer
 noremap <leader>c :bd<CR>
 
-"plug bufonly
-nmap <silent><leader>bo :BufOnly<CR>
+"plug vim-buffet 
+nmap <silent><leader>bo :Bonly<CR>
+noremap <silent><leader>w :Bw<CR>
 
 
 if has('nvim')
