@@ -238,19 +238,30 @@ if has('nvim')
   "Plug 'nvim-lua/lsp-status.nvim'
   "Plug 'neovim/nvim-lsp'
   "Plug 'neovim/nvim-lspconfig'
-  Plug 'glepnir/galaxyline.nvim'
-  Plug 'akinsho/nvim-bufferline.lua'
+  "Plug 'glepnir/galaxyline.nvim'
+  "Plug 'akinsho/nvim-bufferline.lua'
   " Note: This used to be luvjob, but plenary is required now.
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'tjdevries/express_line.nvim'
+  "Plug 'tjdevries/express_line.nvim'
   "Plug 'glepnir/indent-guides.nvim'
 else 
   Plug 'vim-scripts/BufOnly.vim'
   Plug 'scrooloose/nerdtree' 
   Plug 'jistr/vim-nerdtree-tabs' 
-  Plug 'vim-airline/vim-airline' 
-  Plug 'vim-airline/vim-airline-themes' 
 endif
+
+function! g:BuffetSetCustomColors()
+    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#0E0E0E guifg=#FFD2A7
+    hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#444444
+    hi! BuffetModActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetModCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#0e0e0e
+    hi! BuffetModBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
+endfunction
+Plug 'bagrat/vim-buffet'
+
+
+Plug 'vim-airline/vim-airline' 
+Plug 'vim-airline/vim-airline-themes' 
 
 
 Plug 'jdsimcoe/hyper.vim'
@@ -265,6 +276,10 @@ Plug 'xdg/vim-darkluma'
 Plug 'fielding/vice'
 Plug 'wdhg/dragon-energy'
 Plug 'mhinz/vim-startify'
+
+Plug 'morhetz/gruvbox'
+Plug 'mhinz/vim-janah'
+Plug 'ap/vim-css-color'
 
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
@@ -650,49 +665,55 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-if !has('nvim')
-  let g:airline_theme = 'deus'
-  let g:airline#extensions#branch#enabled = 1
-  let g:airline#extensions#ale#enabled = 0
-  let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'sierra'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#ale#enabled = 0
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+
+if has('nvim')
+  let g:airline#extensions#tabline#enabled = 0
   let g:airline#extensions#tabline#formatter = 'jsformatter'
   let g:airline#extensions#tabline#ignore_bufadd_pat =
     \ 'gundo|undotree|vimfiler|tagbar|nerd_tree|startify|!'
-  let g:airline#extensions#tagbar#enabled = 1
-  let g:airline_skip_empty_sections = 1
-
-  if !exists('g:airline_powerline_fonts')
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = ' '
-    let g:airline_left_sep          = ''"▶
-    let g:airline_left_alt_sep      = '»'
-    let g:airline_right_sep         = ' · ' "◀
-    let g:airline_right_alt_sep     = '«'
-    let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-    let g:airline#extensions#readonly#symbol   = '⊘'
-    let g:airline#extensions#linecolumn#prefix = '¶'
-    let g:airline#extensions#paste#symbol      = 'ρ'
-    let g:airline_symbols.linenr    = '␊'
-    let g:airline_symbols.branch    = '⎇'
-    let g:airline_symbols.paste     = 'ρ'
-    let g:airline_symbols.paste     = 'Þ'
-    let g:airline_symbols.paste     = '∥'
-    let g:airline_symbols.whitespace = 'Ξ'
-  else
-    let g:airline#extensions#tabline#left_sep = ''
-    let g:airline#extensions#tabline#left_alt_sep = ''
-
-   " powerline symbols
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
-    let g:airline_symbols.branch = ''
-    let g:airline_symbols.readonly = ''
-    let g:airline_symbols.linenr = ''
-  endif
-
+else 
+  let g:airline#extensions#tabline#enabled = 0
+  let g:airline#extensions#tabline#formatter = 'jsformatter'
+  let g:airline#extensions#tabline#ignore_bufadd_pat =
+    \ 'gundo|undotree|vimfiler|tagbar|nerd_tree|startify|!'
 endif
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = ' '
+  let g:airline_left_sep          = ''"▶
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = ' · ' "◀
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+ " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+
 
 
 " if hidden is not set, TextEdit might fail.
@@ -875,8 +896,6 @@ call g:quickmenu#append('item 2.4', 'echo "2.4 is selected"', 'select item 2.4')
 if has('nvim')
 lua <<EOF
 
--- require'spaceline';
-
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
@@ -915,9 +934,11 @@ if has('nvim')
   noremap <silent>tele :Telescope git_files<CR>
   nmap <silent>telebu :Telescope buffers<CR>
   " bufferline 
-  noremap <leader>k :BufferLineCycleNext<CR>
-  noremap <leader>j :BufferLineCyclePrev<CR>
+  "noremap <leader>k :BufferLineCycleNext<CR>
+  "noremap <leader>j :BufferLineCyclePrev<CR>
   nmap <silent> cbp :BufferLinePick<CR>
+  noremap <leader>k :bn<CR>
+  noremap <leader>j :bp<CR>
 else 
   nnoremap \\ :NERDTreeToggle<CR>
   nnoremap ]] :NERDTreeFind<CR>
@@ -939,12 +960,34 @@ noremap <Leader>vimrc :e ~/.vimrc<CR>
 if has('nvim')
 
 lua <<EOF
-   require('spaceline');
+  --require'bufferline'.setup{
+    --options = {
+        ----view = "multiwindow" | "default",
+        ----numbers = "none" | "ordinal" | "buffer_id",
+        ----number_style = "superscript" | "",
+        ----mappings = true | false,
+        --buffer_close_icon= '',
+        --buffer_close_icon = '',
+        ----modified_icon = 'm',
+        ----close_icon = '',
+        ----left_trunc_marker = '',
+        ----right_trunc_marker = '',
+        --max_name_length = 18,
+        --tab_size = 18,
+        ----show_buffer_close_icons = true | false,
+        ---- can also be a table containing 2 custom separators
+        ---- [focused and unfocused]. eg: { '|', '|' }
+        ----separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+        --separator_style = ""
+        ----enforce_regular_tabs = false | true,
+        ----always_show_bufferline = true | false,
+        ----sort_by = 'extension' | 'relative_directory' | 'directory' | function(buffer_a, buffer_b)
+          ---- add custom logic
+          ----return buffer_a.modified > buffer_b.modified
+        ----end
+      --}
+  --}
 EOF
-
-  lua require'bufferline'.setup()
-
-
 endif
 
 "" Close buffer
@@ -953,3 +996,34 @@ noremap <leader>c :bd<CR>
 "plug bufonly
 nmap <silent><leader>bo :BufOnly<CR>
 
+
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+
+let g:startify_lists = [
+      \ { 'type': 'dir',       'header': ['   Recent files in '. getcwd()] },
+      \ { 'type': 'files',     'header': ['   Most recent opened files globally']            },
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
+
+
+hi Pmenu guibg=#303030
+hi Identifier guifg=#FFD2A7
+hi Directory guifg=orange
+hi Title guifg=red
+hi Function guifg=#1094C3
+hi String guifg=#33ddc8
+"hi Normal          guifg=#33ddc8 guibg=#0e0e0e
+hi Normal          ctermbg=10 guifg=#fefefe guibg=#0e0e0e
+
+let g:buffet_powerline_separators = 1
+let g:buffet_tab_icon = "\uf00a"
+let g:buffet_left_trunc_icon = "\uf0a8"
+let g:buffet_right_trunc_icon = "\uf0a9"
+
+"FZF
+noremap <leader>bu :Buffers<CR>
