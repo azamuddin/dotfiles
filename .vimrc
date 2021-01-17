@@ -852,7 +852,7 @@ let g:vim_http_split_vertically=1
 
 " autoload view 
 autocmd BufWinLeave *.* mkview 
-autocmd BufWinEnter *.* silent loadview
+autocmd BufWinEnter *.* silent! loadview
 
 
 " remap fast up and down (scroll) via confortable motion
