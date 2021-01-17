@@ -205,9 +205,12 @@ Plug 'severin-lemaignan/vim-minimap'
 " on windows
 "Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 " Or install latest release tag
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+"Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 " Or build from source code
 "Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+" to avoid hook 127 error
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition) 
@@ -280,6 +283,7 @@ Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-janah'
 Plug 'ap/vim-css-color'
+Plug 'lifepillar/vim-solarized8'
 
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
@@ -1027,3 +1031,7 @@ let g:buffet_right_trunc_icon = "\uf0a9"
 
 "FZF
 noremap <leader>bu :Buffers<CR>
+
+
+" diepm/vim-rest-console
+let g:vrc_elasticsearch_support = 1
