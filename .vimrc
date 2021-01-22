@@ -284,6 +284,8 @@ Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-janah'
 Plug 'ap/vim-css-color'
 Plug 'lifepillar/vim-solarized8'
+Plug 'vimwiki/vimwiki'
+Plug 'michal-h21/vim-zettel'
 
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
@@ -1035,3 +1037,9 @@ noremap <leader>bu :Buffers<CR>
 
 " diepm/vim-rest-console
 let g:vrc_elasticsearch_support = 1
+
+
+" vim-zettel 
+let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
+
+
