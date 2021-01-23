@@ -16,7 +16,9 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME=amuse
 #ZSH_THEME="spaceship"
-ZSH_THEME="afowler"
+#ZSH_THEME="jbergantine"
+#ZSH_THEME="mrtazz"
+ZSH_THEME="norm"
 #source "/Users/azamuddin/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 # Uncomment the following line to use case-sensitive completion.
