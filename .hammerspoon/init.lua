@@ -37,7 +37,12 @@ function registerWFtoAllWindows()
   if windows == nil then return end;
   
   for key, window in pairs(windows) do
-    all_windows[window:id()] = window;
+
+    if(string.match(window:title(), 'incognito')) then 
+      -- do nothing 
+    else 
+      all_windows[window:id()] = window;
+    end
   end
 end
 
@@ -47,9 +52,9 @@ function getWindowsAsChoices()
    local results_win = {};
    for key,window in pairs(all_windows) do 
      table.insert(results, {
-        text = window:application():name(),
         id = window:id(),
-        subText = window:title()
+        text = window:application():name() .. ' :: ' .. window:title(), 
+        subText = window:application():name(),
       })
      results_win[window:id()] = window;
    end
@@ -64,7 +69,7 @@ function chooseWindow(information)
 end
 
 function chooser()
-  local cs = hs.chooser.new(chooseWindow):width(60):show();
+  local cs = hs.chooser.new(chooseWindow):width(50):show();
   local results = getWindowsAsChoices()[1]
   cs:choices(results);
 end
