@@ -1016,7 +1016,6 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 
-
 hi Pmenu guibg=#303030
 hi Identifier guifg=#FFD2A7
 hi Directory guifg=orange
@@ -1025,6 +1024,7 @@ hi Function guifg=#1094C3
 hi String guifg=#33ddc8
 "hi Normal          guifg=#33ddc8 guibg=#0e0e0e
 hi Normal          ctermbg=10 guifg=#fefefe guibg=#0e0e0e
+hi Folded guifg=white guibg=#303030
 
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
