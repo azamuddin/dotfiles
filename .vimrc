@@ -1022,8 +1022,8 @@ hi Directory guifg=orange
 hi Title guifg=red
 hi Function guifg=#1094C3
 hi String guifg=#33ddc8
-"hi Normal          guifg=#33ddc8 guibg=#0e0e0e
-hi Normal          ctermbg=10 guifg=#fefefe guibg=#0e0e0e
+"hi Normal          guifg=#33ddc8 guibg=#0e0e0b
+hi Normal          ctermbg=10 guifg=#fefefe guibg=#0b0b0b
 hi Folded guifg=white guibg=#303030
 
 let g:buffet_powerline_separators = 1
