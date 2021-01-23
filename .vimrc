@@ -1043,3 +1043,7 @@ let g:vrc_elasticsearch_support = 1
 let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 
 
+" 80 column line 
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%81v.\+/
+
