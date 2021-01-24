@@ -54,8 +54,8 @@ function getWindowsAsChoices()
    for key,window in pairs(all_windows) do 
      table.insert(results, {
         id = window:id(),
-        text = window:application():name() .. ' :: ' .. window:title(), 
-        subText = window:application():name(),
+        text = window:application():name():gsub('^%l', string.upper) .. ' :: ' .. window:title(), 
+        subText = window:application():name():gsub('^%l', string.upper),
       })
      results_win[window:id()] = window;
    end
@@ -100,70 +100,69 @@ spoon.Seal.plugins.useractions.actions = {
 
 
 
+-- TOP BAR RELATED
 
 
--- EXPERIMENT 
-
-mouseCircle = nil
-mouseCircleTimer = nil
-
-function mouseHighlight()
-    -- Delete an existing highlight if it exists
-    if mouseCircle then
-        mouseCircle:delete()
-        if mouseCircleTimer then
-            mouseCircleTimer:stop()
-        end
-    end
-    -- Get the current co-ordinates of the mouse pointer
-    mousepoint = hs.mouse.getAbsolutePosition()
-    -- Prepare a big red circle around the mouse pointer
-    mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
-    mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=1})
-    mouseCircle:setFill(false)
-    mouseCircle:setStrokeWidth(5)
-    mouseCircle:show()
-
-    -- Set a timer to delete the circle after 3 seconds
-    mouseCircleTimer = hs.timer.doAfter(3, function() mouseCircle:delete() end)
-end
-
-focusedAppDrawing = nil;
-focusedAppBgDrawing = nil;
+leftTopBarItems = nil;
+rightTopBarItems = nil;
+topBarBg = nil;
 
 function drawFocusedApp(title)
 
-  if(focusedAppDrawing) then focusedAppDrawing:delete() end
-  if(focusedAppBgDrawing) then focusedAppBgDrawing:delete() end
+  if(leftTopBarItems) then leftTopBarItems:delete() end
+  if(topBarBg) then topBarBg:delete() end
+  if(rightTopBarItems) then rightTopBarItems:delete() end
+
+  if title == nil then 
+    title = hs.application.frontmostApplication():name()
+  end
+
+  title = title:gsub('^%l', string.upper)
 
   local mainScreen = hs.screen.mainScreen(); 
   local mainRes = mainScreen:fullFrame(); 
 
-  local boxFrame = hs.geometry.rect(0, -2, mainRes.w, 22)
-  focusedAppBgDrawing = hs.drawing.rectangle(boxFrame);
-  focusedAppBgDrawing:setFill(true)
-  focusedAppBgDrawing:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.7})
-  focusedAppBgDrawing:setLevel(hs.drawing.windowLevels.modalPanel)
-  focusedAppBgDrawing:show();
+  local boxFrame = hs.geometry.rect(0, -2, mainRes.w, 25)
+  topBarBg = hs.drawing.rectangle(boxFrame);
+  topBarBg:setFill(true)
+  topBarBg:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.8})
+  topBarBg:setLevel(hs.drawing.windowLevels.modalPanel)
+  topBarBg:show();
 
-  text = hs.styledtext
-    .new(" ·"..title.."· ", 
+  local leftText = hs.styledtext
+    .new("  🚀 "..title.." · ".. os.date('%H:%M'), 
       {
-        font={name="Hack Nerd Font",size=16}, 
+        font={name="Hack Nerd Font",size=14}, 
         color={red=1, blue=1, green=1},
         ligature=2,
         paragraphStyle={lineSpacing=0.5}
       }
-    ):lower()
+    )
 
-  frame = hs.geometry.rect(0,-5, 300, 40)
+  local rightText = hs.styledtext
+   .new("··· azamuddin ··· ", 
+     {
+        font={name="Hack Nerd Font",size=14}, 
+        color={red=1, blue=1, green=1},
+        ligature=2,
+        paragraphStyle={lineSpacing=0.5, alignment="center"}
+     }
+   )
 
-  focusedAppDrawing = hs.drawing.text(frame, text);
-  focusedAppDrawing:setLevel(hs.drawing.windowLevels.modalPanel)
-  focusedAppDrawing:show();
+  local frame = hs.geometry.rect(0,0, mainRes.w, 40)
 
+  leftTopBarItems = hs.drawing.text(frame, leftText);
+  leftTopBarItems:setLevel(hs.drawing.windowLevels.modalPanel)
+  leftTopBarItems:show();
+
+  rightTopBarItems = hs.drawing.text(frame, rightText)
+  rightTopBarItems:setLevel(hs.drawing.windowLevels.modalPanel)
+  rightTopBarItems:show();
 
 end
+
+everySeconds = hs.timer.doEvery(1, drawFocusedApp)
+everySeconds:start()
 
 -- application watcher
 function watchApp(name, event, app)
@@ -178,4 +177,5 @@ appWatcher:start()
 
 -- end application watcher
 
-hs.hotkey.bind({"shift", "ctrl"}, "E", mouseHighlight)
+-- END TOP BAR RELATED
+
