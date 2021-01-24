@@ -1,6 +1,8 @@
 hs.loadSpoon('Countdown');
 hs.loadSpoon('Seal');
 
+log = hs.logger.new("azamuddin-spoon", "debug")
+
 table.filter = function(t, filterIter)
   local out = {}
 
@@ -18,7 +20,11 @@ all_windows = {} -- global all_windows
 
 function onWindowCreated(win)
   --table.insert(all_windows, win);
-  all_windows[win:id()] = win;
+  if(string.match(win:title():lower(), 'incognito')) then 
+    -- do nothing
+  else
+    all_windows[win:id()] = win;
+  end
 end
 
 function onWindowDestroyed(win)
@@ -38,11 +44,10 @@ function registerWFtoAllWindows()
   if windows == nil then return end;
   
   for key, window in pairs(windows) do
-
-    if(string.match(window:title(), 'incognito')) then 
+    if(string.match(window:title():lower(), 'incognito')) then 
       -- do nothing 
     else 
-      all_windows[window:id()] = window;
+      all_windows[window:id()] = window
     end
   end
 end
@@ -67,7 +72,8 @@ function chooseWindow(information)
   if information == nil then return end;
   local results_win = getWindowsAsChoices()[2];
   local selectedWin = results_win[information.id];
-  selectedWin:focus();
+  selectedWin:unminimize()
+  selectedWin:focus()
 end
 
 function chooser()
@@ -105,13 +111,15 @@ spoon.Seal.plugins.useractions.actions = {
 
 
 leftTopBarItems = nil;
+centerTopBarItems = nil;
 rightTopBarItems = nil;
 topBarBg = nil;
 
-function drawFocusedApp(title)
+function drawTopBar(title)
 
   if(leftTopBarItems) then leftTopBarItems:delete() end
   if(topBarBg) then topBarBg:delete() end
+  if(centerTopBarItems) then centerTopBarItems:delete() end
   if(rightTopBarItems) then rightTopBarItems:delete() end
 
   if title == nil then 
@@ -126,12 +134,12 @@ function drawFocusedApp(title)
   local boxFrame = hs.geometry.rect(0, -2, mainRes.w, 25)
   topBarBg = hs.drawing.rectangle(boxFrame);
   topBarBg:setFill(true)
-  topBarBg:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.8})
+  topBarBg:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.7})
   topBarBg:setLevel(hs.drawing.windowLevels.modalPanel)
   topBarBg:show();
 
   local leftText = hs.styledtext
-    .new("  🚀 "..title.." · ".. os.date('%H:%M'), 
+    .new("  🚀 "..title.." ", 
       {
         font={name="Hack Nerd Font",size=14}, 
         color={red=1, blue=1, green=1},
@@ -140,7 +148,7 @@ function drawFocusedApp(title)
       }
     )
 
-  local rightText = hs.styledtext
+  local centerText = hs.styledtext
    .new("··· azamuddin ··· ", 
      {
         font={name="Hack Nerd Font",size=14}, 
@@ -150,26 +158,57 @@ function drawFocusedApp(title)
      }
    )
 
+  local rightText = hs.styledtext
+  .new(os.date('%A, %d/%m/%Y · %H:%M') .. " · ", 
+    {
+        font={name="Hack Nerd Font",size=14}, 
+        color={red=1, blue=1, green=1},
+        ligature=2,
+        paragraphStyle={lineSpacing=0.5, alignment="right"}
+    }
+  )
+
   local frame = hs.geometry.rect(0,0, mainRes.w, 40)
 
   leftTopBarItems = hs.drawing.text(frame, leftText);
   leftTopBarItems:setLevel(hs.drawing.windowLevels.modalPanel)
-  leftTopBarItems:show();
+  leftTopBarItems:show()
 
-  rightTopBarItems = hs.drawing.text(frame, rightText)
+  centerTopBarItems = hs.drawing.text(frame, centerText)
+  centerTopBarItems:setLevel(hs.drawing.windowLevels.modalPanel)
+  centerTopBarItems:show()
+
+  rightTopBarItems = hs.drawing.text(frame, rightText) 
   rightTopBarItems:setLevel(hs.drawing.windowLevels.modalPanel)
-  rightTopBarItems:show();
+  rightTopBarItems:show()
 
 end
 
-everySeconds = hs.timer.doEvery(1, drawFocusedApp)
+everySeconds = hs.timer.doEvery(1, drawTopBar)
 everySeconds:start()
+
+function minimiseUnfocusedWindows()
+  local focused = hs.window.focusedWindow()
+
+  if focused == nil then return end;
+  
+  for key, window in pairs(all_windows) do
+    if window:id() == focused:id() or window == nil then 
+      -- do nothing 
+    else 
+      window:minimize()
+    end
+  end
+end
+
+hs.hotkey.bind({"shift","ctrl"}, "M", minimiseUnfocusedWindows)
 
 -- application watcher
 function watchApp(name, event, app)
 
   if event == hs.application.watcher.activated then
-    drawFocusedApp(app:name())
+    -- redraw topbar
+    drawTopBar(app:name())
   end
 end
 
