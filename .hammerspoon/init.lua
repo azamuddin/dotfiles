@@ -56,6 +56,7 @@ function getWindowsAsChoices()
         id = window:id(),
         text = window:application():name():gsub('^%l', string.upper) .. ' :: ' .. window:title(), 
         subText = window:application():name():gsub('^%l', string.upper),
+        image = hs.image.imageFromAppBundle(window:application():bundleID())
       })
      results_win[window:id()] = window;
    end
