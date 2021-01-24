@@ -1,5 +1,6 @@
 hs.loadSpoon('Countdown');
 hs.loadSpoon('Seal');
+
 table.filter = function(t, filterIter)
   local out = {}
 
@@ -90,3 +91,91 @@ spoon.Seal.plugins.useractions.actions = {
     ["Google"] = { url = "https://www.google.com/search?q=${query}", keyword="gg" },
 }
 
+
+
+
+
+
+
+
+
+
+
+
+-- EXPERIMENT 
+
+mouseCircle = nil
+mouseCircleTimer = nil
+
+function mouseHighlight()
+    -- Delete an existing highlight if it exists
+    if mouseCircle then
+        mouseCircle:delete()
+        if mouseCircleTimer then
+            mouseCircleTimer:stop()
+        end
+    end
+    -- Get the current co-ordinates of the mouse pointer
+    mousepoint = hs.mouse.getAbsolutePosition()
+    -- Prepare a big red circle around the mouse pointer
+    mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
+    mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=1})
+    mouseCircle:setFill(false)
+    mouseCircle:setStrokeWidth(5)
+    mouseCircle:show()
+
+    -- Set a timer to delete the circle after 3 seconds
+    mouseCircleTimer = hs.timer.doAfter(3, function() mouseCircle:delete() end)
+end
+
+focusedAppDrawing = nil;
+focusedAppBgDrawing = nil;
+
+function drawFocusedApp(title)
+
+  if(focusedAppDrawing) then focusedAppDrawing:delete() end
+  if(focusedAppBgDrawing) then focusedAppBgDrawing:delete() end
+
+  local mainScreen = hs.screen.mainScreen(); 
+  local mainRes = mainScreen:fullFrame(); 
+
+  local boxFrame = hs.geometry.rect(0, -2, mainRes.w, 22)
+  focusedAppBgDrawing = hs.drawing.rectangle(boxFrame);
+  focusedAppBgDrawing:setFill(true)
+  focusedAppBgDrawing:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.7})
+  focusedAppBgDrawing:setLevel(hs.drawing.windowLevels.modalPanel)
+  focusedAppBgDrawing:show();
+
+  text = hs.styledtext
+    .new(" ·"..title.."· ", 
+      {
+        font={name="Hack Nerd Font",size=16}, 
+        color={red=1, blue=1, green=1},
+        ligature=2,
+        paragraphStyle={lineSpacing=0.5}
+      }
+    ):lower()
+
+  frame = hs.geometry.rect(0,-5, 300, 40)
+
+  focusedAppDrawing = hs.drawing.text(frame, text);
+  focusedAppDrawing:setLevel(hs.drawing.windowLevels.modalPanel)
+  focusedAppDrawing:show();
+
+
+end
+
+-- application watcher
+function watchApp(name, event, app)
+
+  if event == hs.application.watcher.activated then
+    drawFocusedApp(app:name())
+  end
+end
+
+appWatcher = hs.application.watcher.new(watchApp)
+appWatcher:start()
+
+-- end application watcher
+
+hs.hotkey.bind({"shift", "ctrl"}, "E", mouseHighlight)

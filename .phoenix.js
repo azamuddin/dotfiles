@@ -45,7 +45,7 @@ const NORTH = 'north';
 const SOUTH = 'south';
 
 class ChainWindow {
-  constructor(window, margin = 10) {
+  constructor(window, margin = 22) {
     this.window = window;
     this.margin = margin;
     this.frame = window.frame();
@@ -80,17 +80,18 @@ class ChainWindow {
   // Move to cardinal directions NW, NE, SE, SW or relative direction CENTRE
   to(direction) {
     const { parent, margin } = this;
+
     const difference = this.difference();
 
     // X-coordinate
     switch (direction) {
       case NW:
       case SW:
-        this.frame.x = parent.x + margin;
+        this.frame.x = parent.x + (margin/2);
         break;
       case NE:
       case SE:
-        this.frame.x = parent.x + difference.width - margin ;
+        this.frame.x = parent.x + difference.width - (margin/2) ;
         break;
       case CENTRE:
         this.frame.x = parent.x + (difference.width / 2);
@@ -102,7 +103,7 @@ class ChainWindow {
     switch (direction) {
       case NW:
       case NE:
-        this.frame.y = parent.y + margin;
+        this.frame.y = parent.y + (1.5 * margin);
         break;
       case SE:
       case SW:
@@ -139,8 +140,9 @@ class ChainWindow {
   maximise() {
     const { parent, margin } = this;
 
-    this.frame.width = parent.width - (2 * margin);
+    this.frame.width = parent.width - (1.5 * margin);
     this.frame.height = parent.height - (2 * margin);
+
     return this;
   }
 
@@ -161,10 +163,13 @@ class ChainWindow {
 
   // Fill relatively to LEFT or RIGHT-side of screen, or fill whole screen
   fill(direction) {
+
     this.maximise();
+
     if (direction === LEFT || direction === RIGHT) {
       this.halve();
     }
+
     switch (direction) {
       case LEFT:
         this.to(NW);
@@ -374,7 +379,7 @@ Key.on('f', CONTROL_SHIFT, () => {
    }
 
   const maxHeight =
-    Storage.get('maxHeight') || screen.height - (2*margin);
+    Storage.get('maxHeight') || screen.height - (2* margin);
 
   const maxWidth =
     Storage.get('maxWidth') || screen.width - (margin);
@@ -387,8 +392,8 @@ Key.on('f', CONTROL_SHIFT, () => {
     Storage.set('lastPositions', lastPositions)
 
     window.setTopLeft({
-      x: screen.x + margin, 
-      y: screen.y + margin,
+      x: screen.x + margin/2, 
+      y: screen.y + (1.5 * margin),
     })
 
     window.setSize({
