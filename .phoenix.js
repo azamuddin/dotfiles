@@ -398,7 +398,7 @@ Key.on('f', CONTROL_SHIFT, () => {
 
     window.setSize({
       height: screen.height - (2*margin), 
-      width: screen.width - (1.6 * margin) 
+      width: screen.width - (margin) 
     });
 
     Storage.set('maxHeight', window.size().height);
