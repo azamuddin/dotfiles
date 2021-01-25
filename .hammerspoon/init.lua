@@ -159,12 +159,12 @@ function drawTopBar(title)
   local boxFrame = hs.geometry.rect(0, -2, mainRes.w, 25)
   topBarBg = hs.drawing.rectangle(boxFrame);
   topBarBg:setFill(true)
-  topBarBg:setFillColor({red=0.0, blue=0.0, green=0.0, alpha=0.7})
+  topBarBg:setFillColor({red=0.0, blue=0.102, green=0.102, alpha=0.7})
   topBarBg:setLevel(hs.drawing.windowLevels.modalPanel)
   topBarBg:show();
 
   local leftText = hs.styledtext
-    .new("  🚀 "..title.." ", 
+    .new("  λ "..title.." ", 
       {
         font={name="Hack Nerd Font",size=14}, 
         color={red=1, blue=1, green=1},
@@ -184,7 +184,7 @@ function drawTopBar(title)
    )
 
   local rightText = hs.styledtext
-  .new(os.date('%A, %d/%m/%Y · %H:%M') .. " · ", 
+  .new(os.date('%A, %d/%m/%Y · %H:%M') .. " 🚀 · ", 
     {
         font={name="Hack Nerd Font",size=14}, 
         color={red=1, blue=1, green=1},
