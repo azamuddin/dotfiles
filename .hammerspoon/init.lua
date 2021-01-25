@@ -18,13 +18,29 @@ end
 wf = hs.window.filter.new()
 all_windows = {} -- global all_windows
 
-function onWindowCreated(win)
-  --table.insert(all_windows, win);
-  if(string.match(win:title():lower(), 'incognito')) then 
-    -- do nothing
-  else
-    all_windows[win:id()] = win;
+-- check if the title indicating incognito browser
+function isNotIncognito(title)
+  if string.match(title:lower(), 'incognito') then 
+    return false
+  else 
+    return true
   end
+end
+
+-- add window to chooser window
+function addWindowToChooser(win)
+
+  if win == nil then 
+    return 
+  end
+
+  if isNotIncognito(win:title()) then 
+    all_windows[win:id()] = win
+  end
+end
+
+function onWindowCreated(win)
+  addWindowToChooser(win)
 end
 
 function onWindowDestroyed(win)
@@ -47,7 +63,7 @@ function registerWFtoAllWindows()
     if(string.match(window:title():lower(), 'incognito')) then 
       -- do nothing 
     else 
-      all_windows[window:id()] = window
+      addWindowToChooser(window)
     end
   end
 end
@@ -105,8 +121,6 @@ spoon.Seal.plugins.useractions.actions = {
 
 
 
-
-
 -- TOP BAR RELATED
 
 
@@ -117,10 +131,10 @@ topBarBg = nil;
 
 function drawTopBar(title)
 
-  if(leftTopBarItems) then leftTopBarItems:delete() end
-  if(topBarBg) then topBarBg:delete() end
-  if(centerTopBarItems) then centerTopBarItems:delete() end
-  if(rightTopBarItems) then rightTopBarItems:delete() end
+  if(leftTopBarItems ~= nil) then leftTopBarItems:delete() end
+  if(topBarBg ~= nil) then topBarBg:delete() end
+  if(centerTopBarItems ~= nil) then centerTopBarItems:delete() end
+  if(rightTopBarItems ~= nil) then rightTopBarItems:delete() end
 
   if title == nil then 
     title = hs.application.frontmostApplication():name()
@@ -206,10 +220,20 @@ hs.hotkey.bind({"shift","ctrl"}, "M", minimiseUnfocusedWindows)
 -- application watcher
 function watchApp(name, event, app)
 
+  -- application received focus
   if event == hs.application.watcher.activated then
     -- redraw topbar
     drawTopBar(app:name())
   end
+
+  -- application launched
+  if event == hs.application.watcher.launched then 
+
+    local window = app:mainWindow() 
+    addWindowToChooser(window)
+
+  end
+
 end
 
 appWatcher = hs.application.watcher.new(watchApp)
