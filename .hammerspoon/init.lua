@@ -73,10 +73,17 @@ function getWindowsAsChoices()
    local results = {};
    local results_win = {};
    for key,window in pairs(all_windows) do 
+
+     local app_name = window:application():name() 
+     
+     if app_name:lower() == "kitty" then 
+       app_name = "Mission Critical"
+     end
+
      table.insert(results, {
         id = window:id(),
-        text = window:application():name():gsub('^%l', string.upper) .. ' :: ' .. window:title(), 
-        subText = window:application():name():gsub('^%l', string.upper),
+        text = app_name:gsub('^%l', string.upper) .. ' :: ' .. window:title(), 
+        subText = app_name:gsub('^%l', string.upper),
         image = hs.image.imageFromAppBundle(window:application():bundleID())
       })
      results_win[window:id()] = window;
@@ -131,13 +138,17 @@ topBarBg = nil;
 
 function drawTopBar(title)
 
-  if(leftTopBarItems ~= nil) then leftTopBarItems:delete() end
-  if(topBarBg ~= nil) then topBarBg:delete() end
-  if(centerTopBarItems ~= nil) then centerTopBarItems:delete() end
-  if(rightTopBarItems ~= nil) then rightTopBarItems:delete() end
+  if(leftTopBarItems ~= nil and leftTopBarItems.delete ~= nil) then leftTopBarItems:delete() end
+  if(topBarBg ~= nil and topBarBg.delete ~= nil) then topBarBg:delete() end
+  if(centerTopBarItems ~= nil and centerTopBarItems.delete ~= nil) then centerTopBarItems:delete() end
+  if(rightTopBarItems ~= nil and rightTopBarItems.delete ~= nil) then rightTopBarItems:delete() end
 
   if title == nil then 
     title = hs.application.frontmostApplication():name()
+  end
+
+  if title:lower() == "kitty" then
+    title = "Mission Critical"
   end
 
   title = title:gsub('^%l', string.upper)
