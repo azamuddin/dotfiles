@@ -1025,18 +1025,23 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 
-hi Pmenu guibg=#303030
-hi Identifier guifg=#FFD2A7
-hi Directory guifg=orange
-hi Title guifg=red
-hi Function guifg=#1094C3
-hi String guifg=#33ddc8
-hi Normal ctermbg=10 guifg=#fefefe guibg=#1b1b1b
-hi SignColumn ctermbg=10 guibg=#202020
-hi GitGutterAdd guibg=#202020
-hi GitGutterChange guibg=#202020
-hi GitGutterDelete guibg=#202020
-hi Folded guifg=white guibg=#303030
+function! MyDarkHighlight()
+  silent! colorscheme dragon-energy 
+  hi Pmenu guibg=#303030
+  hi Identifier guifg=#FFD2A7
+  hi Directory guifg=orange
+  hi Title guifg=red
+  hi Function guifg=#1094C3
+  hi String guifg=#33ddc8
+  hi Normal ctermbg=10 guifg=#fefefe guibg=#1b1b1b
+  hi SignColumn ctermbg=10 guibg=#202020
+  hi GitGutterAdd guibg=#202020
+  hi GitGutterChange guibg=#202020
+  hi GitGutterDelete guibg=#202020
+  hi Folded guifg=white guibg=#303030
+endfunction
+
+call MyDarkHighlight()
 
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
@@ -1059,5 +1064,5 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 "
 
 " change theme 
-noremap <silent> <leader>dark :color dragon-energy<CR>
+noremap <silent> <leader>dark :call MyDarkHighlight()<CR>
 noremap <silent> <leader>light :color nuvola<CR>
