@@ -287,6 +287,11 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'vimwiki/vimwiki'
 Plug 'michal-h21/vim-zettel'
 
+
+Plug 'vim-scripts/pyte'
+Plug 'vim-scripts/nuvola.vim'
+
+" make sure vim-devicions always last
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
   Plug 'ryanoasis/vim-devicons' 
@@ -294,7 +299,6 @@ else
   Plug 'ryanoasis/vim-devicons' 
 endif 
 
-" make sure vim-devicions always last
 
 call plug#end()
 
@@ -542,8 +546,13 @@ noremap <Leader>e :e <C-R>=expand("%:p:h") . "/"<CR>
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 "" fzf.vim
+noremap <leader>bu :Buffers<CR>
+
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
+let $FZF_DEFAULT_OPTS='--layout=reverse'
+let g:fzf_preview_window = ['right:60%', 'ctrl-/']
+
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
 " The Silver Searcher
@@ -564,7 +573,7 @@ cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
 " custom FZF call 
 function! FZFTerminalPwd()
-   exe "lcd " . getcwd(-1) . " | FZF"
+   exe "lcd " . getcwd(-1) . " | Files"
 endfunction 
 
 " call FZF on terminal pwd
@@ -1022,8 +1031,11 @@ hi Directory guifg=orange
 hi Title guifg=red
 hi Function guifg=#1094C3
 hi String guifg=#33ddc8
-"hi Normal          guifg=#33ddc8 guibg=#0e0e0b
-hi Normal          ctermbg=10 guifg=#fefefe guibg=#0b0b0b
+hi Normal ctermbg=10 guifg=#fefefe guibg=#1b1b1b
+hi SignColumn ctermbg=10 guibg=#202020
+hi GitGutterAdd guibg=#202020
+hi GitGutterChange guibg=#202020
+hi GitGutterDelete guibg=#202020
 hi Folded guifg=white guibg=#303030
 
 let g:buffet_powerline_separators = 1
@@ -1031,8 +1043,6 @@ let g:buffet_tab_icon = "\uf00a"
 let g:buffet_left_trunc_icon = "\uf0a8"
 let g:buffet_right_trunc_icon = "\uf0a9"
 
-"FZF
-noremap <leader>bu :Buffers<CR>
 
 
 " diepm/vim-rest-console
@@ -1046,4 +1056,8 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 " 80 column line 
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
+"
 
+" change theme 
+noremap <silent> <leader>dark :color dragon-energy<CR>
+noremap <silent> <leader>light :color nuvola<CR>
