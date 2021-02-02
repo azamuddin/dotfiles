@@ -18,7 +18,12 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 #ZSH_THEME="spaceship"
 #ZSH_THEME="jbergantine"
 #ZSH_THEME="mrtazz"
-ZSH_THEME="norm"
+#ZSH_THEME="norm"
+
+# in /Users/azamuddin/.oh-my-zsh/custom/themes/azam.zsh-theme
+ZSH_THEME="azam"
+
+
 #source "/Users/azamuddin/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 # Uncomment the following line to use case-sensitive completion.
