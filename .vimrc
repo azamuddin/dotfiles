@@ -680,7 +680,7 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:airline_theme = 'sierra'
+let g:airline_theme = 'luna'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
@@ -1039,9 +1039,28 @@ function! MyDarkHighlight()
   hi GitGutterChange guibg=#202020
   hi GitGutterDelete guibg=#202020
   hi Folded guifg=white guibg=#303030
+  hi MatchParen guibg=gray guifg=white
 endfunction
 
-call MyDarkHighlight()
+function! MyLightHighlight()
+  silent! colorscheme delek 
+  hi SignColumn guibg=#eeeeee
+  hi CursorLineNr guifg=blue 
+  hi LineNr guifg=black
+  hi MatchParen guibg=#aaaaaa guifg=white
+endfunction
+
+function! MyGreenHighlight()
+  silent! colorscheme chalkboard 
+  hi SignColumn guibg=#082016
+  hi GitGutterAdd guibg=#082016
+  hi GitGutterChange guibg=#082016
+  hi GitGutterDelete guibg=#082016
+  hi CursorLineNr guifg=red
+  hi Comment guifg=#cecece
+endfunction
+
+call MyGreenHighlight()
 
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
@@ -1065,4 +1084,5 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 
 " change theme 
 noremap <silent> <leader>dark :call MyDarkHighlight()<CR>
-noremap <silent> <leader>light :color nuvola<CR>
+noremap <silent> <leader>light :call MyLightHighlight()<CR>
+noremap <silent> <leader>green :call MyGreenHighlight()<CR>
