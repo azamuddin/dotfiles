@@ -290,6 +290,8 @@ Plug 'michal-h21/vim-zettel'
 
 Plug 'vim-scripts/pyte'
 Plug 'vim-scripts/nuvola.vim'
+Plug 'tpope/vim-markdown'
+Plug 'NLKNguyen/papercolor-theme'
 
 " make sure vim-devicions always last
 if has('nvim')
@@ -361,8 +363,7 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-silent! colorscheme dragon-energy 
-autocmd! BufEnter *.md colorscheme dragon-energy
+"autocmd! BufEnter *.md colorscheme dragon-energy
 set background=dark
 
 set mousemodel=popup 
@@ -550,7 +551,9 @@ noremap <leader>bu :Buffers<CR>
 
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
-let $FZF_DEFAULT_OPTS='--layout=reverse'
+let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
+
+"
 let g:fzf_preview_window = ['right:60%', 'ctrl-/']
 
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
@@ -1040,27 +1043,64 @@ function! MyDarkHighlight()
   hi GitGutterDelete guibg=#202020
   hi Folded guifg=white guibg=#303030
   hi MatchParen guibg=gray guifg=white
+  hi CocHintSign guifg=#FFD2A7
+  hi CursorLineNr guifg=#FFD2A7
+  hi CocFloating guibg=#FFD2A7 guifg=black
+
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
 endfunction
 
 function! MyLightHighlight()
   silent! colorscheme delek 
-  hi SignColumn guibg=#eeeeee
-  hi CursorLineNr guifg=blue 
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
+  hi htmlh2 gui=bold guifg=black
+  hi htmlh1 gui=bold guifg=black
+
+  " new 
+  hi Keyword guifg=black gui=bold
+  hi Type guifg=#000 gui=NONE
+  hi String guifg=black
   hi LineNr guifg=black
-  hi MatchParen guibg=#aaaaaa guifg=white
+  hi Normal ctermbg=10 guibg=#f8f8f8
+  hi SignColumn guibg=#f8f8f8
+  hi CursorLineNr guifg=maroon
+  hi MatchParen guibg=black guifg=white
+  hi Cursor guibg=black guifg=white
+  hi PreProc guifg=black gui=bold
+  hi phpRegion guifg=black
+  hi phpClass guifg=black
+  hi phpUseClass gui=NONE
+  hi phpFunction guifg=black
+  hi Statement guifg=black gui=bold
+  hi Special guifg=black gui=bold
+  hi Identifier guifg=black gui=bold
+  hi Boolean guifg=black
+  hi Comment guifg=#4D5656
+  hi Number guifg=black
+  hi Directory guifg=black 
+  hi GitGutterAdd guibg=#202020
+  hi GitGutterChange guibg=#202020
+  hi GitGutterDelete guibg=#202020
+  hi Pmenu guibg=#202020 guifg=#f8f8f8
+  hi CocInfoSign guifg=black guibg=black 
+  hi Visual guifg=#f8f8f8 guibg=black gui=NONE
 endfunction
 
 function! MyGreenHighlight()
   silent! colorscheme chalkboard 
+  hi Normal guifg=#f8f8f8 
   hi SignColumn guibg=#082016
   hi GitGutterAdd guibg=#082016
   hi GitGutterChange guibg=#082016
   hi GitGutterDelete guibg=#082016
-  hi CursorLineNr guifg=red
+  hi CursorLineNr guifg=#d7005f
   hi Comment guifg=#cecece
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
+
+
 endfunction
 
-call MyGreenHighlight()
+call MyDarkHighlight()
 
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
@@ -1086,3 +1126,24 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 noremap <silent> <leader>dark :call MyDarkHighlight()<CR>
 noremap <silent> <leader>light :call MyLightHighlight()<CR>
 noremap <silent> <leader>green :call MyGreenHighlight()<CR>
+
+
+" vimwiki 
+" ignore .md files in global
+let g:vimwiki_global_ext=0
+
+let g:markdown_folding=1
+
+augroup markdown-related
+  autocmd!  
+  autocmd BufNewFile,BufRead *.md silent! set filetype markdown
+  autocmd FileType markdown silent! set filetype markdown
+augroup END
+
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
