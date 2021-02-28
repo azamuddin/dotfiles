@@ -228,28 +228,12 @@ if filereadable(expand("~/.vimrc.local.bundles"))
   source  ~/.vimrc.local.bundles 
 endif
 
-"Plug 'romgrk/barbar.nvim'
-
-
 if has('nvim')
   Plug 'kyazdani42/nvim-tree.lua'
-  "Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
   Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
-  "Plug 'nvim-lua/lsp-status.nvim'
-  "Plug 'neovim/nvim-lsp'
-  "Plug 'neovim/nvim-lspconfig'
-  "Plug 'glepnir/galaxyline.nvim'
-  "Plug 'akinsho/nvim-bufferline.lua'
-  " Note: This used to be luvjob, but plenary is required now.
-  "Plug 'tjdevries/express_line.nvim'
-  "Plug 'glepnir/indent-guides.nvim'
-else 
-  "Plug 'vim-scripts/BufOnly.vim'
-  Plug 'scrooloose/nerdtree' 
-  Plug 'jistr/vim-nerdtree-tabs' 
 endif
 
 function! g:BuffetSetCustomColors()
@@ -262,10 +246,8 @@ function! g:BuffetSetCustomColors()
 endfunction
 Plug 'bagrat/vim-buffet'
 
-
 Plug 'vim-airline/vim-airline' 
 Plug 'vim-airline/vim-airline-themes' 
-
 
 Plug 'jdsimcoe/hyper.vim'
 Plug 'habamax/vim-colors-defnoche'
@@ -292,6 +274,8 @@ Plug 'vim-scripts/pyte'
 Plug 'vim-scripts/nuvola.vim'
 Plug 'tpope/vim-markdown'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'stsewd/fzf-checkout.vim'
+Plug 'itmammoth/maximize.vim'
 
 " make sure vim-devicions always last
 if has('nvim')
@@ -306,13 +290,8 @@ call plug#end()
 
 "********** END OF PLUG ***********
 
-
-
-
-
 " Required:
 filetype plugin indent on
-
 
 "*****************************************************************************
 "" Basic Setup
@@ -439,20 +418,6 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q 
 cnoreabbrev Qall qall
-
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2 
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$','\.db$', '\.sqlite$', '__pycache__', '\.swp$', '\.swo$'] 
-let g:NERDTreeSortOrder=['^__\.py$','\/$', '*', '\.swp$', '\.bak$', '\~$'] 
-let g:NERDTreeShowBookmarks=1 
-let g:nerdtree_tabs_focus_on_files=1 
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>' 
-let g:NERDTreeWinSize = 35 
-let g:NERDTreeShowHidden = 1
-"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite 
-"" dont let buffer opened file in NerdTree Window
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
-"" prevent quit vim after bd on file opened by NERDTree
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR> 
@@ -581,6 +546,10 @@ endfunction
 
 " call FZF on terminal pwd
 nnoremap <leader>e :call FZFTerminalPwd()<CR> 
+
+" FZF git checkout 
+nnoremap <leader>gb :GBranches<CR>
+nnoremap <leader>gt :GTags<CR>
 
 function! FZFHere()
    exe "lcd %:p:h | FZF"
@@ -951,15 +920,9 @@ if has('nvim')
   noremap <silent>gm :GitMessenger<CR>
   noremap <silent>tele :Telescope git_files<CR>
   nmap <silent>telebu :Telescope buffers<CR>
-  " bufferline 
-  "noremap <leader>k :BufferLineCycleNext<CR>
-  "noremap <leader>j :BufferLineCyclePrev<CR>
-  nmap <silent> cbp :BufferLinePick<CR>
   noremap <leader>k :bn<CR>
   noremap <leader>j :bp<CR>
 else 
-  nnoremap \\ :NERDTreeToggle<CR>
-  nnoremap ]] :NERDTreeFind<CR>
   noremap <leader>k :bn<CR>
   noremap <leader>j :bp<CR>
 endif
@@ -973,40 +936,6 @@ noremap <silent>chp :color hyper<CR>
 
 noremap <Leader>vimrc :e ~/.vimrc<CR>
 
-
-if has('nvim')
-
-lua <<EOF
-  --require'bufferline'.setup{
-    --options = {
-        ----view = "multiwindow" | "default",
-        ----numbers = "none" | "ordinal" | "buffer_id",
-        ----number_style = "superscript" | "",
-        ----mappings = true | false,
-        --buffer_close_icon= '',
-        --buffer_close_icon = '',
-        ----modified_icon = 'm',
-        ----close_icon = '',
-        ----left_trunc_marker = '',
-        ----right_trunc_marker = '',
-        --max_name_length = 18,
-        --tab_size = 18,
-        ----show_buffer_close_icons = true | false,
-        ---- can also be a table containing 2 custom separators
-        ---- [focused and unfocused]. eg: { '|', '|' }
-        ----separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-        --separator_style = ""
-        ----enforce_regular_tabs = false | true,
-        ----always_show_bufferline = true | false,
-        ----sort_by = 'extension' | 'relative_directory' | 'directory' | function(buffer_a, buffer_b)
-          ---- add custom logic
-          ----return buffer_a.modified > buffer_b.modified
-        ----end
-      --}
-  --}
-EOF
-endif
-
 "" Close buffer
 noremap <leader>c :bd<CR>
 
@@ -1018,7 +947,6 @@ noremap <silent><leader>w :Bw<CR>
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
-
 
 let g:startify_lists = [
       \ { 'type': 'dir',       'header': ['   Recent files in '. getcwd()] },
@@ -1134,10 +1062,11 @@ let g:vimwiki_global_ext=0
 
 let g:markdown_folding=1
 
-augroup markdown-related
+augroup filetype-related
   autocmd!  
-  autocmd BufNewFile,BufRead *.md silent! set filetype markdown
-  autocmd FileType markdown silent! set filetype markdown
+  autocmd BufRead,BufNewFile *.md silent! set filetype=markdown
+autocmd FileType markdown silent! set filetype=markdown
+  autocmd BufRead,BufNewFile *.php silent set filetype=php
 augroup END
 
 
@@ -1147,3 +1076,5 @@ function! SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+let g:vimwiki_folding = 'expr'
