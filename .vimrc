@@ -277,6 +277,9 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'itmammoth/maximize.vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'justinmk/vim-sneak'
+Plug 'liuchengxu/vim-which-key'
+Plug 'codota/tabnine-vim'
 
 " make sure vim-devicions always last
 if has('nvim')
@@ -479,9 +482,6 @@ set autoread
 "" Mappings
 "*****************************************************************************
 
-"" Split
-noremap <Leader>h :<C-u>split<CR> noremap <Leader>v :<C-u>vsplit<CR>
-
 "" Git
 noremap <Leader>ga :Gwrite<CR>
 noremap <Leader>gc :Gcommit<CR>
@@ -558,8 +558,6 @@ endfunction
 
 " call FZF on the current file directory
 nnoremap <leader>l :call FZFHere()<CR> 
-
-
 
 "Recovery commands from history through FZF
 nmap <leader>y :History:<CR>
@@ -1081,13 +1079,59 @@ endfunc
 let g:vimwiki_folding = 'expr'
 
 let g:floaterm_keymap_new = '<Leader>dt'
-
+let g:floaterm_autoclose = 1
 " I don't know whats wrong. This is to escape from terminal mode so can insert
 " command in vim. The default <C-\><C-n> or <C-W>N not working
 tnoremap <Leader>n <C-\><C-n>
+tnoremap <LocalLeader>n <C-\><C-n>
+tnoremap <Leader>tt <C-\><C-n>:FloatermToggle<CR>
 
 " Floaterm builtin global variable not working dunno why
 noremap <Leader>ft :FloatermNew<CR>
 noremap <Leader>tt :FloatermToggle<CR> 
 
+" ===== WHIC KEY ====
+" vim-which key 
+"nnoremap <silent> <leader> :WhichKey ','<CR>
+"set timeoutlen=500
+" Hide status line
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
+let g:which_key_use_floating_win = 0
+let g:which_key_max_size = 0
+
+let g:which_key_map = {} 
+
+let g:which_key_map['.'] = [ ':e ~/.vimrc'                                     , 'open vimrc' ]
+let g:which_key_map[';'] = [ ':Commands'                                       , 'commands' ]
+let g:which_key_map['='] = [ '<C-W>='                                          , 'balance windows' ]
+let g:which_key_map['e'] = [ ':call FZFTerminalPwd()'                          , 'FZF Terminal PWD' ]
+let g:which_key_map['h'] = [ '<C-W>s'                                          , 'split below']
+let g:which_key_map['p'] = [ ':Files'                                          , 'search files' ]
+let g:which_key_map['q'] = [ '<Plug>(coc-fix-current)'                         , 'quickfix' ]
+let g:which_key_map['f'] = [ ':Vifm .'                                         , 'quickfix' ]
+let g:which_key_map['v'] = [ '<C-W>v'                                          , 'split right']
+let g:which_key_map['z'] = [ 'Goyo'                                            , 'zen' ]
+
+let g:which_key_map.t = {
+      \ 'name' : '+terminal' ,
+      \ ';' : [':FloatermNew --wintype=normal --height=6'        , 'terminal'],
+      \ 'f' : [':FloatermNew fzf'                               , 'fzf'],
+      \ 'g' : [':FloatermNew lazygit'                           , 'git'],
+      \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],
+      \ 'n' : [':FloatermNew node'                              , 'node'],
+      \ 'p' : [':FloatermNew python'                            , 'python'],
+      \ 'm' : [':FloatermNew lazynpm'                           , 'npm'],
+      \ 't' : [':FloatermToggle'                                , 'toggle'],
+      \ 's' : [':FloatermNew ncdu'                              , 'ncdu'],
+      \ }
+
+call which_key#register('menu', "g:which_key_map")
+
+map mm :WhichKey 'menu'<CR>
+
+" ===== END WHIC KEY ====
+
+set rtp+=~/Development/tabnine-vim
