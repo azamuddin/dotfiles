@@ -276,6 +276,7 @@ Plug 'tpope/vim-markdown'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'itmammoth/maximize.vim'
+Plug 'voldikss/vim-floaterm'
 
 " make sure vim-devicions always last
 if has('nvim')
@@ -439,8 +440,8 @@ command! FixWhitespace :%s/\s\+$//e
 "*****************************************************************************
 if !exists('*s:setupWrapping') 
   function s:setupWrapping() 
-    set wrap set wm=2
-    set textwidth=79 
+    silent! set wrap set wm=2
+    silent! set textwidth=79 
   endfunction 
 endif
 
@@ -1078,3 +1079,15 @@ function! SynStack()
 endfunc
 
 let g:vimwiki_folding = 'expr'
+
+let g:floaterm_keymap_new = '<Leader>dt'
+
+" I don't know whats wrong. This is to escape from terminal mode so can insert
+" command in vim. The default <C-\><C-n> or <C-W>N not working
+tnoremap <Leader>n <C-\><C-n>
+
+" Floaterm builtin global variable not working dunno why
+noremap <Leader>ft :FloatermNew<CR>
+noremap <Leader>tt :FloatermToggle<CR> 
+
+
