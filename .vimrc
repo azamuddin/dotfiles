@@ -1,43 +1,3 @@
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
-
-if &compatible
-  set nocompatible               " Be iMproved
-endif
-
-" Required:
-set runtimepath+=~/.vim/bundle/neobundle.vim/
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-if !has('nvim')
-  NeoBundle 'tiagofumo/vim-nerdtree-syntax-highlight'
-endif
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
-
-call neobundle#end()
-
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-
-" END NEOBUNDLE
-
-" vim plugin yang diinstall pake pathogen
-execute pathogen#infect()
-
-set splitright
 
 "*****************************************************************************
 "" Vim-PLug core
@@ -57,7 +17,6 @@ let g:vim_bootstrap_editor = "vim"
 " mode
 "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
 
 if !filereadable(vimplug_exists) 
 	if !executable("curl") 
@@ -106,21 +65,11 @@ Plug 'skwp/greplace.vim'
 Plug 'nightsense/rusticated'
 Plug 'kyledoherty/espresso-colors-vim'
 Plug 'StanAngeloff/php.vim'
-
-"if isdirectory('/usr/local/opt/fzf') 
-  "Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' 
-"else 
-  "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do':'./install --bin' } 
-  "Plug 'junegunn/fzf.vim' 
-"endif 
-
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do':'./install --bin' } 
 Plug 'junegunn/fzf.vim' 
-
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'skywind3000/quickmenu.vim'
-
 
 let g:make = 'gmake' 
 
@@ -157,48 +106,31 @@ Plug 'gosukiwi/vim-atom-dark'
 Plug 'nanotech/jellybeans.vim'
 Plug 'ParamagicDev/vim-medic_chalk'
 
-
-""*****************************************************************************
-"" Custom bundles
-"*****************************************************************************
-
-" javascript
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
 
-
-" php
 "" PHP Bundle
 Plug 'arnaud-lb/vim-php-namespace'
-
-
-" typescript
-"Plug 'leafgarland/typescript-vim' 
-"Plug 'HerringtonDarkholme/yats.vim' 
-"Plug 'peitalin/vim-jsx-typescript'
-
 
 " vim dash
 Plug 'rizzatti/dash.vim'
 
-
 Plug 'rhysd/git-messenger.vim'
+
 if !has('nvim')
   Plug 'rhysd/vim-healthcheck'
 endif
 
 " Emmet 
 Plug 'mattn/emmet-vim'
+
 " markdown preview
 Plug 'jamshedvesuna/vim-markdown-preview'
+
 Plug 'dart-lang/dart-vim-plugin' 
 Plug 'thosakwe/vim-flutter'
-
-" lets not use these in favor for coc-vim
-"
 Plug 'natebosch/vim-lsc' 
 Plug 'natebosch/vim-lsc-dart'
-
 Plug 'severin-lemaignan/vim-minimap'
 
 " using coc-vim Install nightly build, replace ./install.sh with install.cmd
@@ -211,15 +143,6 @@ Plug 'severin-lemaignan/vim-minimap'
 
 " to avoid hook 127 error
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition) 
-nmap <silent> gy <Plug>(coc-type-definition) 
-nmap <silent> gi <Plug>(coc-implementation) 
-nmap <silent> gr <Plug>(coc-references) 
-nmap <Leader>gi <Plug>(coc-implementation)
-nmap <leader>rn <Plug>(coc-rename) 
-nmap <F2> <Plug>(coc-rename)
 "*****************************************************************************
 "*****************************************************************************
 
@@ -245,14 +168,11 @@ function! g:BuffetSetCustomColors()
     hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
 endfunction
 Plug 'bagrat/vim-buffet'
-
 Plug 'vim-airline/vim-airline' 
 Plug 'vim-airline/vim-airline-themes' 
-
 Plug 'jdsimcoe/hyper.vim'
 Plug 'habamax/vim-colors-defnoche'
 Plug 'plainfingers/black_is_the_color'
-
 Plug 'lewis6991/moonlight.vim'
 Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'megantiu/true.vim'
@@ -261,15 +181,12 @@ Plug 'xdg/vim-darkluma'
 Plug 'fielding/vice'
 Plug 'wdhg/dragon-energy'
 Plug 'mhinz/vim-startify'
-
 Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-janah'
 Plug 'ap/vim-css-color'
 Plug 'lifepillar/vim-solarized8'
 Plug 'vimwiki/vimwiki'
 Plug 'michal-h21/vim-zettel'
-
-
 Plug 'vim-scripts/pyte'
 Plug 'vim-scripts/nuvola.vim'
 Plug 'tpope/vim-markdown'
@@ -289,17 +206,25 @@ else
   Plug 'ryanoasis/vim-devicons' 
 endif 
 
-
 call plug#end()
 
 "********** END OF PLUG ***********
 
+
+"*****************************************************************************
+"" GENERAL
+"*****************************************************************************
+
+" Note: Skip initialization for vim-tiny or vim-small.
+if 0 | endif
+
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
 " Required:
 filetype plugin indent on
 
-"*****************************************************************************
-"" Basic Setup
-"*****************************************************************************"
 "" Encoding
 set encoding=utf-8 
 set fileencoding=utf-8 
@@ -323,6 +248,8 @@ set hlsearch
 set incsearch 
 set ignorecase 
 set smartcase
+
+set splitright
 
 set fileformats=unix,dos,mac
 
@@ -378,8 +305,6 @@ else
   
 endif
 
-
-
 if &term =~ '256color' 
   set t_ut= 
 endif
@@ -400,13 +325,13 @@ set title
 set titleold="Terminal" 
 set titlestring=%F
 
-
 " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
 nnoremap n nzzzv 
 nnoremap N Nzzzv
 
-
+" Required:
+filetype plugin indent on
 
 "*****************************************************************************
 "" Abbreviations
@@ -1133,5 +1058,17 @@ call which_key#register('menu', "g:which_key_map")
 map mm :WhichKey 'menu'<CR>
 
 " ===== END WHIC KEY ====
-
 set rtp+=~/Development/tabnine-vim
+
+
+"===========
+"" COC 
+"===========
+nmap <silent> gd <Plug>(coc-definition) 
+nmap <silent> gy <Plug>(coc-type-definition) 
+nmap <silent> gi <Plug>(coc-implementation) 
+nmap <silent> gr <Plug>(coc-references) 
+nmap <Leader>gi <Plug>(coc-implementation)
+nmap <leader>rn <Plug>(coc-rename) 
+nmap <F2> <Plug>(coc-rename)
+
