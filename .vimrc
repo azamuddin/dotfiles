@@ -33,6 +33,9 @@ endif
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
 
+
+
+
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
@@ -159,14 +162,6 @@ if has('nvim')
   Plug 'nvim-telescope/telescope.nvim'
 endif
 
-function! g:BuffetSetCustomColors()
-    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#0E0E0E guifg=#FFD2A7
-    hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#444444
-    hi! BuffetModActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
-    hi! BuffetModCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#0e0e0e
-    hi! BuffetModBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
-    hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
-endfunction
 Plug 'bagrat/vim-buffet'
 Plug 'vim-airline/vim-airline' 
 Plug 'vim-airline/vim-airline-themes' 
@@ -196,7 +191,7 @@ Plug 'itmammoth/maximize.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'justinmk/vim-sneak'
 Plug 'liuchengxu/vim-which-key'
-Plug 'codota/tabnine-vim'
+"Plug 'codota/tabnine-vim'
 
 " make sure vim-devicions always last
 if has('nvim')
@@ -268,6 +263,7 @@ let g:session_command_aliases = 1
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
+
 syntax on 
 set ruler 
 set number
@@ -357,21 +353,122 @@ let Grep_Skip_Dirs = '.git node_modules'
 " terminal emulation
 nnoremap <silent> <leader>sh :vert terminal<CR>
 
+" dot as space
+set lcs+=space:·
+set list
+
+" line in column 80 
+highlight ColorColumn ctermbg=gray
+set colorcolumn=80
+
+
+
+
+
+
 "*****************************************************************************
 "" Commands
 "*****************************************************************************
+
 "remove trailing whitespaces
 command! FixWhitespace :%s/\s\+$//e
+
+
+
+
 
 "*****************************************************************************
 "" Functions
 "*****************************************************************************
+
 if !exists('*s:setupWrapping') 
   function s:setupWrapping() 
     silent! set wrap set wm=2
     silent! set textwidth=79 
   endfunction 
 endif
+
+function! g:BuffetSetCustomColors()
+    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#0E0E0E guifg=#FFD2A7
+    hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#444444
+    hi! BuffetModActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetModCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#0e0e0e
+    hi! BuffetModBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
+endfunction
+
+function! MyDarkHighlight()
+  silent! colorscheme dragon-energy 
+  hi Pmenu guibg=#303030
+  hi Identifier guifg=#FFD2A7
+  hi Directory guifg=orange
+  hi Title guifg=red
+  hi Function guifg=#1094C3
+  hi String guifg=#33ddc8
+  hi Normal ctermbg=10 guifg=#fefefe guibg=#1b1b1b
+  hi SignColumn ctermbg=10 guibg=#202020
+  hi GitGutterAdd guibg=#202020
+  hi GitGutterChange guibg=#202020
+  hi GitGutterDelete guibg=#202020
+  hi Folded guifg=white guibg=#303030
+  hi MatchParen guibg=gray guifg=white
+  hi CocHintSign guifg=#FFD2A7
+  hi CursorLineNr guifg=#FFD2A7
+  hi CocFloating guibg=#FFD2A7 guifg=black
+
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
+endfunction
+
+function! MyLightHighlight()
+  silent! colorscheme delek 
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
+  hi htmlh2 gui=bold guifg=black
+  hi htmlh1 gui=bold guifg=black
+
+  " new 
+  hi Keyword guifg=black gui=bold
+  hi Type guifg=#000 gui=NONE
+  hi String guifg=black
+  hi LineNr guifg=black
+  hi Normal ctermbg=10 guibg=#f8f8f8
+  hi SignColumn guibg=#f8f8f8
+  hi CursorLineNr guifg=maroon
+  hi MatchParen guibg=black guifg=white
+  hi Cursor guibg=black guifg=white
+  hi PreProc guifg=black gui=bold
+  hi phpRegion guifg=black
+  hi phpClass guifg=black
+  hi phpUseClass gui=NONE
+  hi phpFunction guifg=black
+  hi Statement guifg=black gui=bold
+  hi Special guifg=black gui=bold
+  hi Identifier guifg=black gui=bold
+  hi Boolean guifg=black
+  hi Comment guifg=#4D5656
+  hi Number guifg=black
+  hi Directory guifg=black 
+  hi GitGutterAdd guibg=#202020
+  hi GitGutterChange guibg=#202020
+  hi GitGutterDelete guibg=#202020
+  hi Pmenu guibg=#202020 guifg=#f8f8f8
+  hi CocInfoSign guifg=black guibg=black 
+  hi Visual guifg=#f8f8f8 guibg=black gui=NONE
+endfunction
+
+function! MyGreenHighlight()
+  silent! colorscheme chalkboard 
+  hi Normal guifg=#f8f8f8 
+  hi SignColumn guibg=#082016
+  hi GitGutterAdd guibg=#082016
+  hi GitGutterChange guibg=#082016
+  hi GitGutterDelete guibg=#082016
+  hi CursorLineNr guifg=#d7005f
+  hi Comment guifg=#cecece
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
+
+
+endfunction
+
 
 "*****************************************************************************
 "" Autocmd Rules
@@ -402,6 +499,8 @@ augroup vimrc-make-cmake
 augroup END
 
 set autoread
+
+
 
 "*****************************************************************************
 "" Mappings
@@ -539,6 +638,10 @@ vnoremap K :m '<-2<CR>gv=gv
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
 
+
+
+
+
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
@@ -624,7 +727,6 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
-
 
 
 " if hidden is not set, TextEdit might fail.
@@ -777,32 +879,6 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set t_Co=256 
 set relativenumber
 
-
-"---------- QUICK MENU
-
-" choose a favorite key to show/hide quickmenu
-noremap <silent><leader>m :call quickmenu#toggle(0)<cr>
-
-" enable cursorline (L) and cmdline help (H)
-let g:quickmenu_options = "HL"
-
-" section 1, text starting with "#" represents a section (see the screen capture below)
-call g:quickmenu#append('# Develop', '')
-
-call g:quickmenu#append('item 1.1', 'echo "1.1 is selected"', 'select item 1.1')
-call g:quickmenu#append('item 1.2', 'echo "1.2 is selected"', 'select item 1.2')
-call g:quickmenu#append('item 1.3', 'echo "1.3 is selected"', 'select item 1.3')
-
-" section 2
-call g:quickmenu#append('# Misc', '')
-
-call g:quickmenu#append('item 2.1', 'echo "2.1 is selected"', 'select item 2.1')
-call g:quickmenu#append('item 2.2', 'echo "2.2 is selected"', 'select item 2.2')
-call g:quickmenu#append('item 2.3', 'echo "2.3 is selected"', 'select item 2.3')
-call g:quickmenu#append('item 2.4', 'echo "2.4 is selected"', 'select item 2.4')
-
-"---------- END QUICK MENU
-
 " related to nvim-treesitter must be outside Plug
 if has('nvim')
 lua <<EOF
@@ -838,8 +914,6 @@ let g:user_emmet_settings = {
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 if has('nvim')
-  noremap <silent>\\ :LuaTreeToggle<CR>
-  noremap <silent>]] :LuaTreeFindFile<CR>
   noremap <silent>gl :Glow<CR>
   noremap <silent>gm :GitMessenger<CR>
   noremap <silent>tele :Telescope git_files<CR>
@@ -853,11 +927,6 @@ endif
 
 set encoding=UTF-8
 
-noremap <silent>cdf :color defnoche<CR>
-noremap <silent>cbc :color black_is_the_color<CR>
-noremap <silent>chp :color hyper<CR>
-
-
 noremap <Leader>vimrc :e ~/.vimrc<CR>
 
 "" Close buffer
@@ -866,7 +935,6 @@ noremap <leader>c :bd<CR>
 "plug vim-buffet 
 nmap <silent><leader>bo :Bonly<CR>
 noremap <silent><leader>w :Bw<CR>
-
 
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -880,86 +948,10 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 
-function! MyDarkHighlight()
-  silent! colorscheme dragon-energy 
-  hi Pmenu guibg=#303030
-  hi Identifier guifg=#FFD2A7
-  hi Directory guifg=orange
-  hi Title guifg=red
-  hi Function guifg=#1094C3
-  hi String guifg=#33ddc8
-  hi Normal ctermbg=10 guifg=#fefefe guibg=#1b1b1b
-  hi SignColumn ctermbg=10 guibg=#202020
-  hi GitGutterAdd guibg=#202020
-  hi GitGutterChange guibg=#202020
-  hi GitGutterDelete guibg=#202020
-  hi Folded guifg=white guibg=#303030
-  hi MatchParen guibg=gray guifg=white
-  hi CocHintSign guifg=#FFD2A7
-  hi CursorLineNr guifg=#FFD2A7
-  hi CocFloating guibg=#FFD2A7 guifg=black
-
-  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
-endfunction
-
-function! MyLightHighlight()
-  silent! colorscheme delek 
-  let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
-  hi htmlh2 gui=bold guifg=black
-  hi htmlh1 gui=bold guifg=black
-
-  " new 
-  hi Keyword guifg=black gui=bold
-  hi Type guifg=#000 gui=NONE
-  hi String guifg=black
-  hi LineNr guifg=black
-  hi Normal ctermbg=10 guibg=#f8f8f8
-  hi SignColumn guibg=#f8f8f8
-  hi CursorLineNr guifg=maroon
-  hi MatchParen guibg=black guifg=white
-  hi Cursor guibg=black guifg=white
-  hi PreProc guifg=black gui=bold
-  hi phpRegion guifg=black
-  hi phpClass guifg=black
-  hi phpUseClass gui=NONE
-  hi phpFunction guifg=black
-  hi Statement guifg=black gui=bold
-  hi Special guifg=black gui=bold
-  hi Identifier guifg=black gui=bold
-  hi Boolean guifg=black
-  hi Comment guifg=#4D5656
-  hi Number guifg=black
-  hi Directory guifg=black 
-  hi GitGutterAdd guibg=#202020
-  hi GitGutterChange guibg=#202020
-  hi GitGutterDelete guibg=#202020
-  hi Pmenu guibg=#202020 guifg=#f8f8f8
-  hi CocInfoSign guifg=black guibg=black 
-  hi Visual guifg=#f8f8f8 guibg=black gui=NONE
-endfunction
-
-function! MyGreenHighlight()
-  silent! colorscheme chalkboard 
-  hi Normal guifg=#f8f8f8 
-  hi SignColumn guibg=#082016
-  hi GitGutterAdd guibg=#082016
-  hi GitGutterChange guibg=#082016
-  hi GitGutterDelete guibg=#082016
-  hi CursorLineNr guifg=#d7005f
-  hi Comment guifg=#cecece
-  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
-
-
-endfunction
-
-call MyDarkHighlight()
-
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
 let g:buffet_left_trunc_icon = "\uf0a8"
 let g:buffet_right_trunc_icon = "\uf0a9"
-
-
 
 " diepm/vim-rest-console
 let g:vrc_elasticsearch_support = 1
@@ -970,15 +962,14 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 
 
 " 80 column line 
-"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"match OverLength /\%81v.\+/
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 "
 
 " change theme 
 noremap <silent> <leader>dark :call MyDarkHighlight()<CR>
 noremap <silent> <leader>light :call MyLightHighlight()<CR>
 noremap <silent> <leader>green :call MyGreenHighlight()<CR>
-
 
 " vimwiki 
 " ignore .md files in global
@@ -989,8 +980,9 @@ let g:markdown_folding=1
 augroup filetype-related
   autocmd!  
   autocmd BufRead,BufNewFile *.md silent! set filetype=markdown
-autocmd FileType markdown silent! set filetype=markdown
+	autocmd FileType markdown silent! set filetype=markdown
   autocmd BufRead,BufNewFile *.php silent set filetype=php
+	autocmd FileType markdown let b:coc_suggest_disable = 1
 augroup END
 
 
@@ -1031,14 +1023,18 @@ let g:which_key_map = {}
 
 let g:which_key_map['.'] = [ ':e ~/.vimrc'                                     , 'open vimrc' ]
 let g:which_key_map[';'] = [ ':Commands'                                       , 'commands' ]
+let g:which_key_map['w'] = [ ':e ~/vimwiki/index.wiki'                         , 'wiki index']
+let g:which_key_map['b'] = [ ':e ~/vimwiki/17-210307-2217-weekly sheet.wiki'   , 'weekly sheet']
 let g:which_key_map['='] = [ '<C-W>='                                          , 'balance windows' ]
-let g:which_key_map['e'] = [ ':call FZFTerminalPwd()'                          , 'FZF Terminal PWD' ]
+let g:which_key_map['e'] = [ ':call FZFTerminalPwd()'                          , 'FZF terminal pwd' ]
+let g:which_key_map['g'] = [ ':Glow' 	  							                         , 'md glow' ]
 let g:which_key_map['h'] = [ '<C-W>s'                                          , 'split below']
 let g:which_key_map['p'] = [ ':Files'                                          , 'search files' ]
 let g:which_key_map['q'] = [ '<Plug>(coc-fix-current)'                         , 'quickfix' ]
 let g:which_key_map['f'] = [ ':Vifm .'                                         , 'quickfix' ]
 let g:which_key_map['v'] = [ '<C-W>v'                                          , 'split right']
 let g:which_key_map['z'] = [ 'Goyo'                                            , 'zen' ]
+let g:which_key_map['i'] = [ ':set invlist'                                    , 'toggle list' ]
 
 let g:which_key_map.t = {
       \ 'name' : '+terminal' ,
@@ -1058,7 +1054,9 @@ call which_key#register('menu', "g:which_key_map")
 map mm :WhichKey 'menu'<CR>
 
 " ===== END WHIC KEY ====
-set rtp+=~/Development/tabnine-vim
+
+" TAB NINE
+"set rtp+=~/Development/tabnine-vim
 
 
 "===========
@@ -1072,3 +1070,4 @@ nmap <Leader>gi <Plug>(coc-implementation)
 nmap <leader>rn <Plug>(coc-rename) 
 nmap <F2> <Plug>(coc-rename)
 
+call MyDarkHighlight()
