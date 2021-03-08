@@ -168,5 +168,5 @@ export PATH=$PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-alias bismillah="tmux attach -t zettelkasten"
+alias bismillah="tmux attach -t 00-zettelkasten"
 
