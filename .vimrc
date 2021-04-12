@@ -225,6 +225,7 @@ set encoding=utf-8
 set fileencoding=utf-8 
 set fileencodings=utf-8 
 set ttyfast
+set lazyredraw
 
 "" Fix backspace indent
 set backspace=indent,eol,start
@@ -355,15 +356,11 @@ nnoremap <silent> <leader>sh :vert terminal<CR>
 
 " dot as space
 set lcs+=space:·
-set list
+set nolist
 
 " line in column 80 
 highlight ColorColumn ctermbg=gray
 set colorcolumn=80
-
-
-
-
 
 
 "*****************************************************************************
@@ -442,7 +439,7 @@ function! MyLightHighlight()
   hi phpFunction guifg=black
   hi Statement guifg=black gui=bold
   hi Special guifg=black gui=bold
-  hi Identifier guifg=black gui=bold
+  hi Identifier guifg=#4271ae gui=bold
   hi Boolean guifg=black
   hi Comment guifg=#4D5656
   hi Number guifg=black
@@ -453,6 +450,9 @@ function! MyLightHighlight()
   hi Pmenu guibg=#202020 guifg=#f8f8f8
   hi CocInfoSign guifg=black guibg=black 
   hi Visual guifg=#f8f8f8 guibg=black gui=NONE
+
+  hi ColorColumn ctermbg=gray guibg=#dedede
+  set colorcolumn=80
 endfunction
 
 function! MyGreenHighlight()
@@ -728,6 +728,8 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
+let g:airline#extensions#whitespace#enabled=0
+
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -982,7 +984,7 @@ augroup filetype-related
   autocmd BufRead,BufNewFile *.md silent! set filetype=markdown
 	autocmd FileType markdown silent! set filetype=markdown
   autocmd BufRead,BufNewFile *.php silent set filetype=php
-	autocmd FileType markdown let b:coc_suggest_disable = 1
+	"autocmd FileType markdown let b:coc_suggest_disable = 1
 augroup END
 
 
@@ -1024,7 +1026,7 @@ let g:which_key_map = {}
 let g:which_key_map['.'] = [ ':e ~/.vimrc'                                     , 'open vimrc' ]
 let g:which_key_map[';'] = [ ':Commands'                                       , 'commands' ]
 let g:which_key_map['w'] = [ ':e ~/vimwiki/index.wiki'                         , 'wiki index']
-let g:which_key_map['b'] = [ ':e ~/vimwiki/17-210307-2217-weekly sheet.wiki'   , 'weekly sheet']
+let g:which_key_map['b'] = [ ':e ~/vimwiki/00-bullet-journal.wiki'             , 'bullet journal']
 let g:which_key_map['='] = [ '<C-W>='                                          , 'balance windows' ]
 let g:which_key_map['e'] = [ ':call FZFTerminalPwd()'                          , 'FZF terminal pwd' ]
 let g:which_key_map['g'] = [ ':Glow' 	  							                         , 'md glow' ]
@@ -1038,9 +1040,9 @@ let g:which_key_map['i'] = [ ':set invlist'                                    ,
 
 let g:which_key_map.t = {
       \ 'name' : '+terminal' ,
-      \ ';' : [':FloatermNew --wintype=normal --height=6'        , 'terminal'],
+      \ ';' : [':FloatermNew --wintype=normal --height=6'       , 'terminal'],
       \ 'f' : [':FloatermNew fzf'                               , 'fzf'],
-      \ 'g' : [':FloatermNew lazygit'                           , 'git'],
+      \ 'g' : [':FloatermNew --width=0.9 --height=0.8 lazygit ' , 'git'],
       \ 'd' : [':FloatermNew lazydocker'                        , 'docker'],
       \ 'n' : [':FloatermNew node'                              , 'node'],
       \ 'p' : [':FloatermNew python'                            , 'python'],
@@ -1071,3 +1073,6 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <F2> <Plug>(coc-rename)
 
 call MyDarkHighlight()
+
+" cucumber feature to step definition 
+nmap <leader>cu ^wi('$a')ha, () => {k^ 
