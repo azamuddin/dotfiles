@@ -170,3 +170,6 @@ export LC_CTYPE=en_US.UTF-8
 
 alias bismillah="tmux attach -t 00-zettelkasten"
 
+# Emacs related things
+alias emacs=/usr/local/opt/emacs-plus@27/bin/emacs
+export PATH="$HOME/.emacs.d/bin:$PATH"

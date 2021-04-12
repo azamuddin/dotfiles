@@ -209,8 +209,8 @@ function drawTopBar(title)
 
 end
 
-everySeconds = hs.timer.doEvery(1, drawTopBar)
-everySeconds:start()
+everySeconds = hs.timer.doEvery(1, drawTopBar):start()
+--everySeconds:start()
 
 function minimiseUnfocusedWindows()
   local focused = hs.window.focusedWindow()
@@ -247,8 +247,8 @@ function watchApp(name, event, app)
 
 end
 
-appWatcher = hs.application.watcher.new(watchApp)
-appWatcher:start()
+appWatcher = hs.application.watcher.new(watchApp):start()
+--appWatcher:start()
 
 -- end application watcher
 
