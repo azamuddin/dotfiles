@@ -40,7 +40,7 @@ call plug#begin(expand('~/.vim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 
-Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}
+"Plug 'npxbr/glow.nvim', {'do': ':GlowInstall'}
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-commentary' 
@@ -73,6 +73,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'skywind3000/quickmenu.vim'
+Plug 'prettier/vim-prettier'
 
 let g:make = 'gmake' 
 
@@ -87,7 +88,6 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
 "" Snippets
-Plug 'SirVer/ultisnips' 
 Plug 'honza/vim-snippets'
 
 "" Color
@@ -122,6 +122,7 @@ Plug 'rhysd/git-messenger.vim'
 
 if !has('nvim')
   Plug 'rhysd/vim-healthcheck'
+	Plug 'SirVer/ultisnips' 
 endif
 
 " Emmet 
@@ -155,14 +156,13 @@ if filereadable(expand("~/.vimrc.local.bundles"))
 endif
 
 if has('nvim')
-  Plug 'kyazdani42/nvim-tree.lua'
-  Plug 'nvim-treesitter/nvim-treesitter'
+	"Plug 'kyazdani42/nvim-tree.lua'
+	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
 endif
 
-Plug 'bagrat/vim-buffet'
 Plug 'vim-airline/vim-airline' 
 Plug 'vim-airline/vim-airline-themes' 
 Plug 'jdsimcoe/hyper.vim'
@@ -193,13 +193,23 @@ Plug 'justinmk/vim-sneak'
 Plug 'liuchengxu/vim-which-key'
 "Plug 'codota/tabnine-vim'
 
-" make sure vim-devicions always last
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" sad.nvim
+Plug 'ray-x/guihua.lua'  "lua GUI lib
+Plug 'ray-x/sad.nvim'
+
+
+" make sure vim-devicons always last
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
-  Plug 'ryanoasis/vim-devicons' 
+	Plug 'ryanoasis/vim-devicons' 
 else 
   Plug 'ryanoasis/vim-devicons' 
 endif 
+
+" and even more last than vim-devicons is vim-buffet
+Plug 'bagrat/vim-buffet'
 
 call plug#end()
 
@@ -270,7 +280,7 @@ set ruler
 set number
 
 let no_buffers_menu=1 
-"autocmd! BufEnter *.md colorscheme dragon-energy
+"autocmd! BufEnter *.md colorscheme ambient
 set background=dark
 
 set mousemodel=popup 
@@ -359,8 +369,8 @@ set lcs+=space:·
 set nolist
 
 " line in column 80 
-highlight ColorColumn ctermbg=gray
-set colorcolumn=80
+"highlight ColorColumn ctermbg=gray
+"set colorcolumn=80
 
 
 "*****************************************************************************
@@ -416,6 +426,28 @@ function! MyDarkHighlight()
   let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
 endfunction
 
+function! MyTransparentHighlight()
+  silent! colorscheme dragon-energy 
+  hi Pmenu guibg=#303030
+  hi Identifier guifg=#FFD2A7
+  hi Directory guifg=orange
+  hi Title guifg=red
+  hi Function guifg=#1094C3
+  hi String guifg=#33ddc8
+  hi Normal ctermbg=NONE guifg=#fefefe guibg=NONE
+  hi SignColumn ctermbg=NONE guibg=NONE
+  hi GitGutterAdd guibg=#202020
+  hi GitGutterChange guibg=#202020
+  hi GitGutterDelete guibg=#202020
+  hi Folded guifg=white guibg=#303030
+  hi MatchParen guibg=gray guifg=white
+  hi CocHintSign guifg=#FFD2A7
+  hi CursorLineNr guifg=#FFD2A7
+  hi CocFloating guibg=black guifg=#FFD2A7
+
+  let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
+endfunction
+
 function! MyLightHighlight()
   silent! colorscheme delek 
   let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
@@ -452,7 +484,6 @@ function! MyLightHighlight()
   hi Visual guifg=#f8f8f8 guibg=black gui=NONE
 
   hi ColorColumn ctermbg=gray guibg=#dedede
-  set colorcolumn=80
 endfunction
 
 function! MyGreenHighlight()
@@ -679,7 +710,8 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:airline_theme = 'luna'
+"let g:airline_theme = 'luna'
+let g:airline_theme = 'dark'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
@@ -702,18 +734,20 @@ if !exists('g:airline_powerline_fonts')
   let g:airline#extensions#tabline#left_alt_sep = ' '
   let g:airline_left_sep          = ''"▶
   let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = ' · ' "◀
+  let g:airline_right_sep         = '' "◀
   let g:airline_right_alt_sep     = '«'
   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline#extensions#readonly#symbol   = ' ⊘ '
+  let g:airline#extensions#linecolumn#prefix = ' ¶ '
+  let g:airline#extensions#paste#symbol      = ' ρ '
+  let g:airline_symbols.linenr    = ' ␊ '
+  let g:airline_symbols.branch    = ' ⎇' 
+  let g:airline_symbols.paste     = ' ρ '
+  let g:airline_symbols.paste     = ' Þ '
+  let g:airline_symbols.paste     = ' ∥ '
+  let g:airline_symbols.whitespace = ' Ξ '
+  let g:airline_symbols.maxlinenr = '☰  '
+  let g:airline_symbols.colnr = ' ℅:'
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
@@ -886,7 +920,7 @@ if has('nvim')
 lua <<EOF
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  -- ensure_installed = "all", -- one of "all", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { "c", "rust" },  -- list of language that will be disabled
@@ -950,10 +984,12 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 
+let g:buffet_always_show_tabline = 1
 let g:buffet_powerline_separators = 1
 let g:buffet_tab_icon = "\uf00a"
 let g:buffet_left_trunc_icon = "\uf0a8"
 let g:buffet_right_trunc_icon = "\uf0a9"
+let g:buffet_use_devicons=1
 
 " diepm/vim-rest-console
 let g:vrc_elasticsearch_support = 1
@@ -964,14 +1000,15 @@ let g:zettel_format = "%file_no-%y%m%d-%H%M-%title"
 
 
 " 80 column line 
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%81v.\+/
 "
 
 " change theme 
 noremap <silent> <leader>dark :call MyDarkHighlight()<CR>
 noremap <silent> <leader>light :call MyLightHighlight()<CR>
 noremap <silent> <leader>green :call MyGreenHighlight()<CR>
+noremap <silent> <leader>trans :call MyTransparentHighlight()<CR>
 
 " vimwiki 
 " ignore .md files in global
@@ -1072,7 +1109,44 @@ nmap <Leader>gi <Plug>(coc-implementation)
 nmap <leader>rn <Plug>(coc-rename) 
 nmap <F2> <Plug>(coc-rename)
 
-call MyDarkHighlight()
+"call MyDarkHighlight()
+call MyTransparentHighlight()
+
 
 " cucumber feature to step definition 
 nmap <leader>cu ^wi('$a')ha, () => {k^ 
+
+
+" need to specify python3 provider 
+" because we plan to use venv on each python project 
+let g:python3_host_prog="/usr/bin/python3"
+
+" python rootPattern because if not missing import will be reported
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'requirements.txt']
+
+if !has('nvim') 
+	autocmd! BufEnter * colorscheme ambient
+endif
+
+" pretier
+let g:prettier#autoformat = 0
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#exec_cmd_async = 1
+let g:prettier#quickfix_enabled = 0
+"autocmd TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
+nmap <leader>s :w<CR> :e<CR>
+
+" autofix eslint for current buffer
+nmap <leader>lint :CocCommand eslint.executeAutofix<CR>:w<CR>
+
+
+" sad.nvim setup
+lua <<EOF
+require'sad'.setup({
+  diff = 'delta', -- you can use `diff`, `diff-so-fancy`
+  ls_file = 'fd', -- also git ls_file
+  exact = false, -- exact match
+})
+EOF
+" end sad.nvim
+
