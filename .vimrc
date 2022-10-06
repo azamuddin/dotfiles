@@ -33,6 +33,16 @@ endif
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
 
+" vim buffet, need to be placed before loading vim buffet
+function! g:BuffetSetCustomColors()
+    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#0E0E0E guifg=#FFD2A7
+    hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#262626 guifg=#999999
+    hi! BuffetModActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetModCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#0e0e0e
+    hi! BuffetModBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
+    hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
+endfunction
+
 
 
 
@@ -65,7 +75,6 @@ Plug 'christoomey/vim-conflicted'
 Plug 'davidoc/taskpaper.vim'
 Plug 'vifm/vifm.vim'
 Plug 'skwp/greplace.vim'
-Plug 'nightsense/rusticated'
 Plug 'kyledoherty/espresso-colors-vim'
 Plug 'StanAngeloff/php.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do':'./install --bin' } 
@@ -99,9 +108,10 @@ Plug 'ntk148v/vim-horizon'
 Plug 'maksimr/Lucius2'
 Plug 'vim-scripts/Ambient-Color-Scheme'
 Plug 'scottymoon/vim-chalkboard'
+Plug 'EdenEast/nightfox.nvim', { 'tag': 'v1.0.0' }
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 "Plug 'fatih/molokai'
 Plug 'fcevado/molokai_dark'
-Plug 'acoustichero/simple_dark'
 Plug 'jasoncarr0/sidewalk-colorscheme'
 Plug 'vim-scripts/darkspectrum'
 Plug 'dracula/vim'
@@ -200,7 +210,7 @@ Plug 'ray-x/guihua.lua'  "lua GUI lib
 Plug 'ray-x/sad.nvim'
 
 
-" make sure vim-devicons always last
+" make sure vim-devicons always last only before plugin that requires icons
 if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 	Plug 'ryanoasis/vim-devicons' 
@@ -210,6 +220,7 @@ endif
 
 " and even more last than vim-devicons is vim-buffet
 Plug 'bagrat/vim-buffet'
+Plug 'kyazdani42/nvim-tree.lua'
 
 call plug#end()
 
@@ -394,15 +405,6 @@ if !exists('*s:setupWrapping')
     silent! set textwidth=79 
   endfunction 
 endif
-
-function! g:BuffetSetCustomColors()
-    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#0E0E0E guifg=#FFD2A7
-    hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#444444
-    hi! BuffetModActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
-    hi! BuffetModCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#0e0e0e
-    hi! BuffetModBuffer cterm=NONE ctermbg=5 ctermfg=8 guifg=green guibg=#444444
-    hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guifg=#FFD2A7 guibg=#444444
-endfunction
 
 function! MyDarkHighlight()
   silent! colorscheme dragon-energy 
@@ -711,7 +713,7 @@ if !exists('g:airline_symbols')
 endif
 
 "let g:airline_theme = 'luna'
-let g:airline_theme = 'dark'
+let g:airline_theme = 'alduin'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#ale#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
@@ -985,11 +987,14 @@ let g:startify_lists = [
       \ ]
 
 let g:buffet_always_show_tabline = 1
-let g:buffet_powerline_separators = 1
-let g:buffet_tab_icon = "\uf00a"
+let g:buffet_powerline_separators = 0
 let g:buffet_left_trunc_icon = "\uf0a8"
 let g:buffet_right_trunc_icon = "\uf0a9"
 let g:buffet_use_devicons=1
+let g:buffet_separator = ''
+let g:buffet_modified_icon = ' +'
+let g:buffet_tab_icon = '*'
+"let g:buffet_tab_icon = "\uf00a"
 
 " diepm/vim-rest-console
 let g:vrc_elasticsearch_support = 1
@@ -1149,4 +1154,26 @@ require'sad'.setup({
 })
 EOF
 " end sad.nvim
+
+" setup nvim-tree 
+lua <<EOF
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- empty setup using defaults
+require("nvim-tree").setup({
+	renderer = {
+		icons = {
+			show = {
+				file = true,
+				folder = true,
+				folder_arrow = false,
+				git = true
+			}
+		}
+	}
+})
+EOF
+nmap <silent> \\ :NvimTreeToggle<CR>
 
