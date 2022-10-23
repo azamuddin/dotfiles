@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/bin:/usr/local/bin:$HOME/.composer/vendor/bin
@@ -19,8 +26,9 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 #ZSH_THEME="mrtazz"
 #ZSH_THEME="norm"
 
-#source "/Users/azamuddin/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
-ZSH_THEME="robbyrussell"
+# Require powerlevel10k to be installed
+# https://github.com/romkatv/powerlevel10k#oh-my-zsh
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -82,7 +90,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git npm docker macos web-search copypath copyfile copybuffer)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -152,3 +160,6 @@ alias bismillah="tmux attach -t 08-taildesignr-instapage"
 # Emacs related things
 alias emacs=/usr/local/opt/emacs-plus@27/bin/emacs
 export PATH="$HOME/.emacs.d/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
