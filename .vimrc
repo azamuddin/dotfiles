@@ -1181,6 +1181,18 @@ require("nvim-tree").setup({
 		}
 	}
 })
+
+vim.filetype.add {
+   extension = {
+     astro = "astro",
+   },
+}
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
 EOF
+
+
 nmap <silent> \\ :NvimTreeToggle<CR>
 
+" for astro files
+autocmd BufRead,BufEnter *.astro set filetype=astro
