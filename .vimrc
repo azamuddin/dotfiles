@@ -157,8 +157,13 @@ Plug 'severin-lemaignan/vim-minimap'
 
 " to avoid hook 127 error
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" use FZF window instead of default coc.nvim
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 "*****************************************************************************
 "*****************************************************************************
+"
+"
+
 
 "" Include user's extra bundle
 if filereadable(expand("~/.vimrc.local.bundles")) 
@@ -498,8 +503,6 @@ function! MyGreenHighlight()
   hi CursorLineNr guifg=#d7005f
   hi Comment guifg=#cecece
   let $FZF_DEFAULT_OPTS="--layout=reverse --color=dark,bg:000,hl:33,hl+:37,fg+:235,bg+:136,fg+:254 --color=info:254,prompt:37,spinner:108,pointer:235,marker:235"
-
-
 endfunction
 
 
@@ -576,8 +579,12 @@ set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
 let $FZF_DEFAULT_OPTS="--layout=reverse --color=fg:#4d4d4c,bg:#eeeeee,hl:#d7005f --color=fg+:#d7005f,bg+:#e8e8e8,hl+:#d7005f --color=info:#4271ae,prompt:#8959a8,pointer:#d7005f --color=marker:#4271ae,spinner:#4271ae,header:#4271ae"
 
-"
+" fzf
 let g:fzf_preview_window = ['right:60%', 'ctrl-/']
+
+" coc-fzf
+let g:coc_fzf_preview = 'right:60%' 
+let g:coc_fzf_opts = []
 
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
