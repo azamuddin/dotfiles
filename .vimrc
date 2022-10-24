@@ -811,7 +811,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -1000,8 +1001,8 @@ let g:buffet_right_trunc_icon = "\uf0a9"
 let g:buffet_use_devicons=1
 let g:buffet_separator = ''
 let g:buffet_modified_icon = ' +'
-let g:buffet_tab_icon = '*'
-"let g:buffet_tab_icon = "\uf00a"
+"let g:buffet_tab_icon = '*'
+let g:buffet_tab_icon = "\uf00a"
 
 " diepm/vim-rest-console
 let g:vrc_elasticsearch_support = 1
