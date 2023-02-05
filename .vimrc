@@ -118,6 +118,7 @@ Plug 'dracula/vim'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'nanotech/jellybeans.vim'
 Plug 'ParamagicDev/vim-medic_chalk'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
@@ -213,6 +214,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " sad.nvim
 Plug 'ray-x/guihua.lua'  "lua GUI lib
 Plug 'ray-x/sad.nvim'
+
+" astro nvim treesitter 
+Plug 'virchau13/tree-sitter-astro'
 
 
 " make sure vim-devicons always last only before plugin that requires icons
@@ -995,7 +999,7 @@ let g:startify_lists = [
       \ ]
 
 let g:buffet_always_show_tabline = 1
-let g:buffet_powerline_separators = 0
+let g:buffet_powerline_separators = 1
 let g:buffet_left_trunc_icon = "\uf0a8"
 let g:buffet_right_trunc_icon = "\uf0a9"
 let g:buffet_use_devicons=1
@@ -1137,9 +1141,9 @@ let g:python3_host_prog="/usr/bin/python3"
 " python rootPattern because if not missing import will be reported
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'requirements.txt']
 
-if !has('nvim') 
-	autocmd! BufEnter * colorscheme ambient
-endif
+"if !has('nvim') 
+	"autocmd! BufEnter * colorscheme ambient
+"endif
 
 " pretier
 let g:prettier#autoformat = 0

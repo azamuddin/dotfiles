@@ -209,7 +209,7 @@ function drawTopBar(title)
 
 end
 
-everySeconds = hs.timer.doEvery(1, drawTopBar):start()
+--everySeconds = hs.timer.doEvery(1, drawTopBar):start()
 --everySeconds:start()
 
 function minimiseUnfocusedWindows()
@@ -234,7 +234,7 @@ function watchApp(name, event, app)
   -- application received focus
   if event == hs.application.watcher.activated then
     -- redraw topbar
-    drawTopBar(app:name())
+    --drawTopBar(app:name())
   end
 
   -- application launched

@@ -45,7 +45,7 @@ const NORTH = 'north';
 const SOUTH = 'south';
 
 class ChainWindow {
-  constructor(window, margin = 22) {
+  constructor(window, margin = 15) {
     this.window = window;
     this.margin = margin;
     this.frame = window.frame();
