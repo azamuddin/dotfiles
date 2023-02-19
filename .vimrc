@@ -1062,6 +1062,7 @@ tnoremap <Leader>tt <C-\><C-n>:FloatermToggle<CR>
 " Floaterm builtin global variable not working dunno why
 noremap <Leader>ft :FloatermNew<CR>
 noremap <Leader>tt :FloatermToggle<CR> 
+noremap <Leader>fn :FloatermNext<CR>
 
 " ===== WHIC KEY ====
 " vim-which key 
