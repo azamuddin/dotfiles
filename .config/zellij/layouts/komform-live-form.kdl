@@ -1,0 +1,21 @@
+layout {
+    default_tab_template {
+        children
+        pane size=2 borderless=true {
+            // FIXME: Zellij wants absolute path only
+            plugin location="file:~/.config/zellij/plugins/statusbar.wasm"
+        }
+    }
+    tab name="kf-live-form" split_direction="vertical" {
+      pane cwd="~/Development/29-komform-live-form/" {
+        command "nvim";
+      }
+    }
+    tab name="kf-live-form-term" split_direction="vertical" {
+      pane cwd="~/Development/29-komform-live-form/" {
+        command "npm";
+        args "run" "dev" "--" "--port" "3001"
+      }
+      pane size="50%" cwd="~/Development/29-komform-live-form/" 
+    }
+}
