@@ -4,45 +4,45 @@ Phoenix.set({
   openAtLogin: true,
 });
 
-Event.on('willTerminate', () => {
-  Storage.remove('lastPositions');
-  Storage.remove('maxHeight');
-})
+Event.on("willTerminate", () => {
+  Storage.remove("lastPositions");
+  Storage.remove("maxHeight");
+});
 
-function frameRatio(a, b){
-	const widthRatio = b.width / a.width;
-	const heightRatio = b.height / a.height;
+function frameRatio(a, b) {
+  const widthRatio = b.width / a.width;
+  const heightRatio = b.height / a.height;
 
-	return ({width, height, x, y}) => {
-		width = Math.round(width * widthRatio);
-		height = Math.round(height * heightRatio);
-		x = Math.round(b.x + (x - a.x) * widthRatio);
-		y = Math.round(b.y + (y - a.y) * heightRatio);
+  return ({ width, height, x, y }) => {
+    width = Math.round(width * widthRatio);
+    height = Math.round(height * heightRatio);
+    x = Math.round(b.x + (x - a.x) * widthRatio);
+    y = Math.round(b.y + (y - a.y) * heightRatio);
 
-		return {width, height, x, y};
-	};
+    return { width, height, x, y };
+  };
 }
 
 // Globals
 const HIDDEN_DOCK_MARGIN = 3;
 const INCREMENT = 0.05;
-const CONTROL_SHIFT = ['ctrl', 'shift'];
-const CONTROL_ALT_SHIFT = ['ctrl', 'alt', 'shift'];
+const CONTROL_SHIFT = ["ctrl", "shift"];
+const CONTROL_ALT_SHIFT = ["ctrl", "alt", "shift"];
 
 // Relative Directions
-const LEFT = 'left';
-const RIGHT = 'right';
-const CENTRE = 'centre';
+const LEFT = "left";
+const RIGHT = "right";
+const CENTRE = "centre";
 
 // Cardinal Directions
-const NW = 'nw';
-const NE = 'ne';
-const SE = 'se';
-const SW = 'sw';
-const EAST = 'east';
-const WEST = 'west';
-const NORTH = 'north';
-const SOUTH = 'south';
+const NW = "nw";
+const NE = "ne";
+const SE = "se";
+const SW = "sw";
+const EAST = "east";
+const WEST = "west";
+const NORTH = "north";
+const SOUTH = "south";
 
 class ChainWindow {
   constructor(window, margin = 15) {
@@ -87,14 +87,14 @@ class ChainWindow {
     switch (direction) {
       case NW:
       case SW:
-        this.frame.x = parent.x + (margin/2);
+        this.frame.x = parent.x + margin / 2;
         break;
       case NE:
       case SE:
-        this.frame.x = parent.x + difference.width - (margin/2) ;
+        this.frame.x = parent.x + difference.width - margin / 2;
         break;
       case CENTRE:
-        this.frame.x = parent.x + (difference.width / 2);
+        this.frame.x = parent.x + difference.width / 2;
         break;
       default:
     }
@@ -103,14 +103,14 @@ class ChainWindow {
     switch (direction) {
       case NW:
       case NE:
-        this.frame.y = parent.y + (1.5 * margin);
+        this.frame.y = parent.y + 1.5 * margin;
         break;
       case SE:
       case SW:
         this.frame.y = parent.y + difference.height - margin;
         break;
       case CENTRE:
-        this.frame.y = parent.y + (difference.height / 2);
+        this.frame.y = parent.y + difference.height / 2;
         break;
       default:
     }
@@ -124,12 +124,15 @@ class ChainWindow {
     const difference = this.difference();
     let delta;
     if (factor.width) {
-      delta = Math.min(parent.width * factor.width, difference.x + difference.width - margin);
+      delta = Math.min(
+        parent.width * factor.width,
+        difference.x + difference.width - margin
+      );
       this.frame.width += delta;
     } else if (factor.height) {
       delta = Math.min(
         parent.height * factor.height,
-        difference.height - frame.y + margin + HIDDEN_DOCK_MARGIN,
+        difference.height - frame.y + margin + HIDDEN_DOCK_MARGIN
       );
       this.frame.height += delta;
     }
@@ -140,8 +143,8 @@ class ChainWindow {
   maximise() {
     const { parent, margin } = this;
 
-    this.frame.width = parent.width - (1.5 * margin);
-    this.frame.height = parent.height - (2 * margin);
+    this.frame.width = parent.width - 1.5 * margin;
+    this.frame.height = parent.height - 2 * margin;
 
     return this;
   }
@@ -163,7 +166,6 @@ class ChainWindow {
 
   // Fill relatively to LEFT or RIGHT-side of screen, or fill whole screen
   fill(direction) {
-
     this.maximise();
 
     if (direction === LEFT || direction === RIGHT) {
@@ -211,6 +213,13 @@ Window.prototype.fill = function (direction, screen) {
   }
 };
 
+Key.on("c", CONTROL_SHIFT, () => {
+  const iterm = App.get("iTerm2").mainWindow();
+  const space = Space.active();
+  space.moveWindows([iterm]);
+  iterm.focus();
+});
+
 // Resize by factor
 Window.prototype.resize = function (factor) {
   this.chain().resize(factor).set();
@@ -218,70 +227,70 @@ Window.prototype.resize = function (factor) {
 
 /* Position Bindings */
 
-Key.on('q', CONTROL_SHIFT, () => {
+Key.on("q", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(NW);
   }
 });
 
-Key.on('w', CONTROL_SHIFT, () => {
+Key.on("w", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(NE);
   }
 });
 
-Key.on('s', CONTROL_SHIFT, () => {
+Key.on("s", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(SE);
   }
 });
 
-Key.on('a', CONTROL_SHIFT, () => {
+Key.on("a", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(SW);
   }
 });
 
-Key.on('z', CONTROL_SHIFT, () => {
+Key.on("z", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(CENTRE);
   }
 });
 
-Key.on('q', CONTROL_ALT_SHIFT, () => {
+Key.on("q", CONTROL_ALT_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(NW, window.screen().next());
   }
 });
 
-Key.on('w', CONTROL_ALT_SHIFT, () => {
+Key.on("w", CONTROL_ALT_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(NE, window.screen().next());
   }
 });
 
-Key.on('s', CONTROL_ALT_SHIFT, () => {
+Key.on("s", CONTROL_ALT_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(SE, window.screen().next());
   }
 });
 
-Key.on('a', CONTROL_ALT_SHIFT, () => {
+Key.on("a", CONTROL_ALT_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(SW, window.screen().next());
   }
 });
 
-Key.on('z', CONTROL_ALT_SHIFT, () => {
+Key.on("z", CONTROL_ALT_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.to(CENTRE, window.screen().next());
@@ -290,14 +299,14 @@ Key.on('z', CONTROL_ALT_SHIFT, () => {
 
 /* Fill Bindings */
 
-Key.on('o', CONTROL_SHIFT, () => {
+Key.on("o", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.fill(LEFT);
   }
 });
 
-Key.on('p', CONTROL_SHIFT, () => {
+Key.on("p", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.fill(RIGHT);
@@ -313,7 +322,7 @@ Key.on("'", CONTROL_SHIFT, () => {
   }
 });
 
-Key.on(';', CONTROL_SHIFT, () => {
+Key.on(";", CONTROL_SHIFT, () => {
   const window = Window.focused();
   if (window) {
     window.resize({ height: -INCREMENT });
@@ -322,93 +331,88 @@ Key.on(';', CONTROL_SHIFT, () => {
 
 /* Focus Bindings */
 
-Key.on('<', CONTROL_SHIFT, () => {
+Key.on("<", CONTROL_SHIFT, () => {
   const last = _.last(Window.recent());
   if (last) {
     last.focus();
   }
 });
 
-
-Key.on('.', CONTROL_SHIFT, () => {
+Key.on(".", CONTROL_SHIFT, () => {
   const window = Window.focused();
-  if(!window){
-    return 
+  if (!window) {
+    return;
   }
 
-  const oldScreen = window.screen(); 
-  const newScreen = oldScreen.next(); 
+  const oldScreen = window.screen();
+  const newScreen = oldScreen.next();
 
-  if(oldScreen.isEqual(newScreen)){
-     return; 
+  if (oldScreen.isEqual(newScreen)) {
+    return;
   }
 
   const ratio = frameRatio(
-     oldScreen.flippedVisibleFrame(), 
-     newScreen.flippedVisibleFrame(),
-  )
+    oldScreen.flippedVisibleFrame(),
+    newScreen.flippedVisibleFrame()
+  );
 
   window.setFrame(ratio(window.frame()));
-  
-})
-
+});
 
 /** toggle max screen **/
-Key.on('f', CONTROL_SHIFT, () => {
+Key.on("f", CONTROL_SHIFT, () => {
+  const window = Window.focused();
 
-  const window = 
-    Window.focused();
+  if (!window) return;
 
-  if(!window) return;
+  const margin = window.chain().margin;
 
-  const margin =
-    window.chain().margin;
+  const windowId = window.hash();
 
-  const windowId =
-    window.hash();
+  const screen = window.screen().flippedVisibleFrame();
 
-  const screen = 
-    window.screen().flippedVisibleFrame()
+  let lastPositions = Storage.get("lastPositions") || {};
 
-  let lastPositions = 
-    Storage.get('lastPositions') || {}; 
+  if (!lastPositions[windowId]) {
+    lastPositions[windowId] = {
+      x: window.topLeft().x,
+      y: window.topLeft().y,
+      width: window.size().width,
+      height: window.size().height,
+    };
+  }
 
-   if(!lastPositions[windowId]){
-    lastPositions[windowId] = 
-       {x: window.topLeft().x, y: window.topLeft().y, width: window.size().width, height: window.size().height}
-   }
+  const maxHeight = Storage.get("maxHeight") || screen.height - 2 * margin;
 
-  const maxHeight =
-    Storage.get('maxHeight') || screen.height - (2* margin);
+  const maxWidth = Storage.get("maxWidth") || screen.width - margin;
 
-  const maxWidth =
-    Storage.get('maxWidth') || screen.width - (margin);
+  if (window.size().width !== maxWidth || window.size().height !== maxHeight) {
+    lastPositions[windowId] = {
+      x: window.topLeft().x,
+      y: window.topLeft().y,
+      width: window.size().width,
+      height: window.size().height,
+    };
 
-  if(window.size().width !== maxWidth || window.size().height !== maxHeight){
-
-    lastPositions[windowId] = 
-      {x: window.topLeft().x, y: window.topLeft().y, width: window.size().width, height: window.size().height}
-
-    Storage.set('lastPositions', lastPositions)
+    Storage.set("lastPositions", lastPositions);
 
     window.setTopLeft({
-      x: screen.x + margin/2, 
-      y: screen.y + (1.5 * margin),
-    })
-
-    window.setSize({
-      height: screen.height - (2*margin), 
-      width: screen.width - (margin) 
+      x: screen.x + margin / 2,
+      y: screen.y + 1.5 * margin,
     });
 
-    Storage.set('maxHeight', window.size().height);
-    Storage.set('maxWidth', window.size().width);
+    window.setSize({
+      height: screen.height - 2 * margin,
+      width: screen.width - margin,
+    });
+
+    Storage.set("maxHeight", window.size().height);
+    Storage.set("maxWidth", window.size().width);
 
     return;
   }
 
-  if(window){
-
+  if (window) {
     window.setSize({
       width: lastPositions[windowId].width,
       height: lastPositions[windowId].height,
@@ -416,116 +420,92 @@ Key.on('f', CONTROL_SHIFT, () => {
 
     window.setTopLeft({
       x: lastPositions[windowId].x,
-      y: lastPositions[windowId].y
+      y: lastPositions[windowId].y,
     });
-  }
-
-})
-
-Key.on('h', CONTROL_SHIFT, function(){
-  const window = 
-    Window.focused();
-
-  if(window){
-    window.focusClosestNeighbor(WEST);
-  }
-})
-
-Key.on('j', CONTROL_SHIFT, function(){
-  const window = 
-    Window.focused(); 
-
-  if(window){
-     window.focusClosestNeighbor(SOUTH);
   }
 });
 
-Key.on('k', CONTROL_SHIFT, function(){
-  const window = 
-    Window.focused();
+Key.on("h", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
-  if(window){
-     window.focusClosestNeighbor(NORTH)
+  if (window) {
+    window.focusClosestNeighbor(WEST);
   }
-})
+});
 
-Key.on('l', CONTROL_SHIFT, function(){
-   const window = 
-    Window.focused();
+Key.on("j", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
-   if(window){
-     window.focusClosestNeighbor(EAST)
-   }
-})
+  if (window) {
+    window.focusClosestNeighbor(SOUTH);
+  }
+});
 
-Key.on('/', CONTROL_SHIFT, function(){
+Key.on("k", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
-  const window =
-    Window.focused();
+  if (window) {
+    window.focusClosestNeighbor(NORTH);
+  }
+});
+
+Key.on("l", CONTROL_SHIFT, function () {
+  const window = Window.focused();
+
+  if (window) {
+    window.focusClosestNeighbor(EAST);
+  }
+});
+
+Key.on("/", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
   window.setSize({
     height: window.size().height / 2,
-    width: window.size().width
-  })
-})
+    width: window.size().width,
+  });
+});
 
-Key.on('t', CONTROL_SHIFT, function(){
-  App.launch('Iterm').focus();
-})
+Key.on("t", CONTROL_SHIFT, function () {
+  App.launch("Arc").focus();
+});
 
-Key.on('c', CONTROL_SHIFT, function(){
-  App.launch('Chrome').focus();
-})
-
-Key.on('d', CONTROL_SHIFT, function(){
-  App.launch('Vanilla');
-})
-
+Key.on("d", CONTROL_SHIFT, function () {
+  App.launch("Vanilla");
+});
 
 /**
- * Move window to space on the right 
+ * Move window to space on the right
  */
-Key.on('right', CONTROL_SHIFT, function(){
+Key.on("right", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
-  const window = 
-    Window.focused();
+  const space = Space.active();
 
-  const space = 
-    Space.active();
+  if (!window || !space) return;
 
-  if(!window || !space) return;
-
-  const nextSpace = 
-    space.next();
+  const nextSpace = space.next();
 
   space.removeWindows([window]);
   nextSpace.addWindows([window]);
 
   window.focus();
-
 });
 
-
 /**
- * Move window to space on the left 
+ * Move window to space on the left
  */
-Key.on('left', CONTROL_SHIFT, function(){
-  
-  const window = 
-    Window.focused();
+Key.on("left", CONTROL_SHIFT, function () {
+  const window = Window.focused();
 
-  const space = 
-    Space.active();
+  const space = Space.active();
 
-  if(!window || !space) return;
+  if (!window || !space) return;
 
-  const previousSpace = 
-    space.previous();
+  const previousSpace = space.previous();
 
   space.removeWindows([window]);
   previousSpace.addWindows([window]);
 
   window.focus();
-
-})
-
+});

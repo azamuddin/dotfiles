@@ -21,7 +21,7 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #ZSH_THEME=amuse
-#ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
 #ZSH_THEME="jbergantine"
 #ZSH_THEME="mrtazz"
 #ZSH_THEME="norm"
@@ -163,3 +163,15 @@ export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# pnpm
+export PNPM_HOME="/Users/azamuddin/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+start(){
+  zellij --layout "$1"
+}
