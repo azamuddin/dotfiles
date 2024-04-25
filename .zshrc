@@ -175,3 +175,19 @@ esac
 start(){
   zellij --layout "$1"
 }
+
+# COLORLS 
+alias ls="colorls"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/azamuddin/Library/Application Support/Herd/bin/":$PATH
+
+
+# Herd injected PHP 8.2 configuration.
+export HERD_PHP_82_INI_SCAN_DIR="/Users/azamuddin/Library/Application Support/Herd/config/php/82/"
+
+
+# Herd injected PHP 8.1 configuration.
+export HERD_PHP_81_INI_SCAN_DIR="/Users/azamuddin/Library/Application Support/Herd/config/php/81/"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
