@@ -40,9 +40,8 @@ layout {
       } 
     } 
     tab name="terminal" split_direction="vertical" {
-      pane cwd="~/Development/49-bisa-kerja-remote/" {
-        command "npm";
-        args "run" "dev" "--" "--port" "3003";
+      pane cwd="~/Development/49-bisa-kerja-remote/" command="bash" {
+        args "-c" "TZ=UTC npm run dev -- --port 3003"
       }
       pane size="50%" cwd="~/Development/49-bisa-kerja-remote/" 
     }
