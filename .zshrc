@@ -238,3 +238,7 @@ export PATH="/Users/azamuddin/.codeium/windsurf/bin:$PATH"
 # WezTerm
 PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 export PATH
+
+
+# Neovim specific version 0.10.4 
+export PATH="/opt/nvim-0.10.4/bin:$PATH"
