@@ -19,7 +19,7 @@ sketchybar --bar \
   height=36 \
   blur_radius=0 \
   color=$BAR_COLOR \
-  corner_radius=5 \
+  corner_radius=0 \
   margin=0 \
   padding_left=10 \
   padding_right=10 \
@@ -168,15 +168,6 @@ sketchybar --add item front_app left \
 #            --subscribe battery system_woke power_source_change
 
 
-# Define the appearance of the bracket
-status_bracket=(
-  background.color=$BAR_COLOR
-  background.border_color=$BORDER_COLOR
-  background.border_width=0
-  background.corner_radius=5
-  background.padding_left=5
-  background.padding_right=5
-)
 
 # Add the calendar item
 sketchybar --add item calendar right \
@@ -194,6 +185,16 @@ sketchybar --add item battery right \
 # Add the WiFi alias
 sketchybar --add alias "Control Center,WiFi" right \
            --set "Control Center,WiFi" background.padding_left=5
+
+# Define the appearance of the bracket
+status_bracket=(
+  # background.color=$BAR_COLOR
+  # background.border_color=$BORDER_COLOR
+  background.border_width=0
+  background.corner_radius=5
+  background.padding_left=5
+  background.padding_right=5
+)
 
 # Create a bracket to group the items
 sketchybar --add bracket status_bracket calendar battery "Control Center,WiFi" \
