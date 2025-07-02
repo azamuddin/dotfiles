@@ -13,7 +13,7 @@ after-startup-command = [
   "exec-and-forget sketchybar", 
   # JankyBorders has a built-in detection of already running process,
   # so it won't be run twice on AeroSpace restart
-  "exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0" ]
+  "exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0x00494d64 width=5.0" ]
 
 # Notify Sketchybar about workspace change
 exec-on-workspace-change = ['/bin/bash', '-c',
@@ -233,3 +233,8 @@ automatically-unhide-macos-hidden-apps = false
 [[on-window-detected]] 
  if.app-id = 'org.jkiss.dbeaver.core.product' 
  run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.timpler.screenstudio'
+check-further-callbacks = true
+run = 'layout floating'
